@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Plataforma Q&A Acadêmica
+Um "Stack Overflow" para a sua comunidade de estudantes. Projeto de plataforma de Perguntas e Respostas (Q&A) focado em comunidades acadêmicas, permitindo que alunos criem, respondam e avaliem dúvidas relacionadas a disciplinas específicas.
 
-## Getting Started
+## 🎯 Sobre o Projeto
+O objetivo desta plataforma é criar um hub de conhecimento colaborativo para estudantes. Em vez de dúvidas se perderem em grupos de mensagens ou ficarem sem resposta, aqui elas são organizadas, enriquecidas pela comunidade e preservadas para consultas futuras.
 
-First, run the development server:
+A plataforma resolve o problema da centralização do conhecimento, permitindo que as perguntas e suas melhores respostas, validadas pelos próprios alunos e moderadores, sirvam como um material de estudo confiável e em constante evolução.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Funcionalidades Principais
+[] - Autenticação de Usuários: Sistema de login e cadastro seguro para os membros da comunidade.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[] - Perfis de Usuário: Cada membro possui um perfil com suas informações, perguntas feitas e respostas fornecidas.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[] - Criação de Perguntas: Usuários podem postar dúvidas, formatá-las com texto rico e associá-las a uma disciplina específica.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[] - Publicação de Respostas: Qualquer membro pode contribuir com respostas, incluindo anexos como resoluções e gabaritos.
 
-## Learn More
+[] - Sistema de Votação: As respostas podem ser votadas (upvote/downvote) pela comunidade para destacar as mais úteis.
 
-To learn more about Next.js, take a look at the following resources:
+[] - Seleção de "Melhor Resposta": O autor da pergunta pode marcar uma resposta como a "Melhor Resposta", encerrando o tópico e sinalizando a solução correta.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[] - Categorização por Disciplina: Todas as perguntas são organizadas por disciplinas, facilitando a busca e a navegação.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[ ] Sistema de Gamificação (pontos, medalhas e ranking de usuários).
 
-## Deploy on Vercel
+[ ] Notificações em tempo real (novas respostas, votos, etc.).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Stack de Tecnologias
+Este projeto é construído com um conjunto de tecnologias modernas, robustas e escaláveis:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Framework: Next.js (React)
+- ORM: Prisma
+- Banco de Dados: PostgreSQL
+- Autenticação: NextAuth.js
+- Estilização: Tailwind, Shadcn ui
+- Linguagem: TypeScript/Javascript
+
+## ✨ Assistente de Respostas com IA ✨
+- Planejamos integrar um Modelo de Linguagem Grande (LLM) para auxiliar os usuários em várias frentes:
+
+- Sugestão de Respostas: A IA poderá analisar uma pergunta e sugerir um rascunho de resposta para que o usuário possa refinar, economizando tempo e garantindo uma base sólida.
+
+- Melhora de Qualidade: A IA poderá revisar o conteúdo de perguntas e respostas para corrigir erros gramaticais, melhorar a clareza e sugerir uma melhor formatação.
+
+- Identificação de Duplicatas: O sistema poderá usar IA para identificar perguntas duplicadas de forma mais inteligente, sugerindo ao usuário tópicos já existentes antes de ele criar um novo.
+
+- Resumo de Tópicos: Para perguntas com muitas respostas, a IA poderá gerar um resumo conciso com os pontos-chave discutidos.
