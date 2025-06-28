@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  personProfile Person?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Person {
+  id String @id @default(cuid())
+
+  user             User      @relation(fields: [userId], references: [id])
+  userId           String    @unique
+  fullName         String
+  birthDate        DateTime?
+  gender           Gender?
+  enrollmentNumber String?   @unique
+  bio              String?   @db.Text
+  profilePicture   String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  enrolledSubjects Subject[]
+
+  answersProvided Answer[]
+
+  votes Vote[]
+
+  questionsCreated Question[]
+
+  @@map("people")
+}
+
+model Subject {
+  id   String  @id @default(cuid())
+  name String  @unique
+  code String? @unique
+  icon String  @default("<i class=\"fa-solid fa-circle\"></i>")
+
+  studentsEnrolled Person[]
+
+  questions Question[]
+
+  @@map("subjects")
+}
+
+model Question {
+  id        String         @id @default(cuid())
+  title     String
+  content   String         @db.Text
+  status    QuestionStatus @default(OPEN)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  author   Person @relation(fields: [authorId], references: [id])
+  authorId String
+
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
+
+  answers Answer[]
+
+  @@map("questions")
+}
+
+model Answer {
+  id             String   @id @default(cuid())
+  content        String   @db.Text
+  fileAttachment String?
+  isBestAnswer   Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId String
+
+  author   Person @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  votes Vote[]
+
+  @@map("answers")
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  voteType  Int
+  createdAt DateTime @default(now())
+
+  author   Person @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  answer   Answer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  answerId String
+
+  @@unique([authorId, answerId])
+  @@map("votes")
+}
+
+enum Gender {
+  M
+  F
+  O
+  N
+}
+
+enum QuestionStatus {
+  OPEN
+  CLOSED
+  ANSWERED
+}
