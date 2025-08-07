@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 const outfit = Outfit({
-  subsets: ["latin"], // Define o conjunto de caracteres (latino é o padrão para português/inglês)
-    display: "swap", // Melhora a performance de carregamento
-  variable: "--font-outfit", // Cria uma variável CSS para usar com Tailwind
+  subsets: ["latin"],
+    display: "swap",
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {

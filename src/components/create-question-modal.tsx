@@ -169,17 +169,16 @@ export default function CreateQuestionModal() {
           </div>
           ) : null }
           
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="outline">
+        <DialogFooter className="flex items-center">
+          <DialogClose asChild className="w-full">
+            <Button type="button" variant="destructive" className="font-bold h-12 bg-red-800">
               Cancelar
             </Button>
           </DialogClose>
           {/* O botão de salvar agora submete o formulário */}
-             <Button type="submit" form="create-question-form">
+             <Button type="submit" form="create-question-form" className="font-bold w-full h-12 cursor-pointer">
                 Publicar pergunta
             </Button>
-          
         </DialogFooter>
         </form>
       </DialogContent>
