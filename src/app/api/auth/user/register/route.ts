@@ -38,10 +38,12 @@ export async function POST(request: NextRequest) {
       name,
       email,
       password: hashedPassword,
+      profilePicture
     },
+    omit: {
+      password: true
+    }
   });
 
-  const { password: _, ...userWithoutPassword } = user;
-
-  return NextResponse.json(userWithoutPassword, { status: 201 });
+  return NextResponse.json(user, { status: 201 });
 } 

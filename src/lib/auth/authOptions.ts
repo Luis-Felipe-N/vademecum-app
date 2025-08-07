@@ -48,13 +48,13 @@ CredentialsProvider({
 }),
   ],
   callbacks: {
-    async session({ session, user, token }) {
+    async session({ session, token }) {
       const userPrisma = await client.user.findUnique({
         where: {
           id: token.sub,
         },
       })
-      console.log('User Prisma:', userPrisma)
+
       if (userPrisma) {
         const userSession: User = {
           ...session.user,

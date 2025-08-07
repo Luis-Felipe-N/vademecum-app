@@ -22,7 +22,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import z4 from "zod/v4"
 import { useCharacterLimit } from '@/hooks/use-character-limit'
-import { tr } from 'zod/v4/locales'
+import Image from 'next/image'
 
 const MAXLENGTH = 180
 
@@ -41,7 +41,6 @@ type CreateAccountFormData = z4.infer<typeof createAccountFormSchema>
 
 export default function Register() {
   const {
-    value,
     characterCount,
     handleChange,
     maxLength: limit,
@@ -195,7 +194,7 @@ function ProfileBg() {
     <div className="h-32">
       <div className="bg-muted relative flex size-full items-center justify-center overflow-hidden">
         {currentImage && (
-          <img
+          <Image
             className="size-full object-cover"
             src={currentImage}
             alt="Logo da UFT"
@@ -241,7 +240,7 @@ function Avatar() {
     <div className="-mt-10 px-6">
       <div className="border-background bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-full border-4 shadow-xs shadow-black/10">
         {currentImage && (
-          <img
+          <Image
             src={currentImage}
             className="size-full object-cover"
             width={80}

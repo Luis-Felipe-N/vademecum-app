@@ -17,9 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Logo from "./navbar-components/logo";
-import NotificationMenu from "./navbar-components/notification-menu";
 import UserMenu from "./navbar-components/user-menu";
-import CreateQuestionModal from "./create-question-modal";
 import Register from "./auth/register";
 import { useSession } from "next-auth/react";
 import Login from "./auth/login";

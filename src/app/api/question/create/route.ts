@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse, type NextRequest } from "next/server";
 import z from "zod/v4";
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
 
   if (!session || !session.user) {
