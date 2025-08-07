@@ -1,0 +1,14 @@
+# docker run --name vademecum-clean -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=vademecum01 -d postgres
+
+# VERSAO DO DOCKER-COMPOSE
+
+services:
+  postgress: 
+    container_name: vademecum-clean
+    image: postgres
+    ports: 
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: docker

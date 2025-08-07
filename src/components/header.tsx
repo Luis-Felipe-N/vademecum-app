@@ -1,3 +1,5 @@
+'use client';
+
 import { useId } from "react";
 import { SearchIcon } from "lucide-react";
 
@@ -17,11 +19,17 @@ import {
 import Logo from "./navbar-components/logo";
 import NotificationMenu from "./navbar-components/notification-menu";
 import UserMenu from "./navbar-components/user-menu";
+import CreateQuestionModal from "./create-question-modal";
+import Register from "./auth/register";
+import { useSession } from "next-auth/react";
+import Login from "./auth/login";
 
 const navigationLinks = [{ href: "#", label: "Home", active: true }];
 
 export default function Header() {
   const id = useId();
+
+  const { status } = useSession() 
 
   return (
     <header className="border-b px-4 md:px-6">
@@ -110,10 +118,20 @@ export default function Header() {
         </div>
 
         <div className="flex flex-1 items-center justify-end gap-2">
-          {/* Notification */}
-          <NotificationMenu />
-          {/* User menu */}
-          <UserMenu />
+          { status !== "authenticated" ? (
+            <>
+              <Register />
+              <Login />
+            </>
+          ) : (
+            <>
+              <div className="p-2 text-xs bg-zinc-800 rounded-full">
+                0 
+                moedas
+              </div>            
+              <UserMenu />
+            </>
+          )}
         </div>
       </div>
     </header>

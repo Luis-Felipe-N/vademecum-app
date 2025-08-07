@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { QueryProvider } from "@/providers/useQueryProvider";
+import NextAuthSessionProvider from "./provider/sessionProvider";
+import { Toaster } from "sonner";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
@@ -15,7 +18,7 @@ const geistMono = Geist_Mono({
 
 const outfit = Outfit({
   subsets: ["latin"], // Define o conjunto de caracteres (latino é o padrão para português/inglês)
-  display: "swap", // Melhora a performance de carregamento
+    display: "swap", // Melhora a performance de carregamento
   variable: "--font-outfit", // Cria uma variável CSS para usar com Tailwind
 });
 
@@ -30,11 +33,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={`${geistSans.variable}  ${outfit.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <Toaster richColors/>
+
+        <ThemeProvider 
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange>
+          <NextAuthSessionProvider>
+            <QueryProvider>{children}</QueryProvider>
+          </NextAuthSessionProvider>
+
+        </ThemeProvider>
       </body>
     </html>
   );

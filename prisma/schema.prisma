@@ -1,23 +1,29 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  profilePicture String?
+  accounts       Account[]
+  sessions       Session[]
+  created_at     DateTime  @default(now())
+  password       String
 
-  personProfile Person?
+  enrolledSubjects Subject[]
+  answersProvided  Answer[]
+  votes            Vote[]
+  questionsCreated Question[]
 }
 
 model Account {
@@ -47,38 +53,13 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Person {
-  id String @id @default(cuid())
-
-  user             User      @relation(fields: [userId], references: [id])
-  userId           String    @unique
-  fullName         String
-  birthDate        DateTime?
-  gender           Gender?
-  enrollmentNumber String?   @unique
-  bio              String?   @db.Text
-  profilePicture   String?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-
-  enrolledSubjects Subject[]
-
-  answersProvided Answer[]
-
-  votes Vote[]
-
-  questionsCreated Question[]
-
-  @@map("people")
-}
-
 model Subject {
   id   String  @id @default(cuid())
   name String  @unique
   code String? @unique
   icon String  @default("<i class=\"fa-solid fa-circle\"></i>")
 
-  studentsEnrolled Person[]
+  studentsEnrolled User[]
 
   questions Question[]
 
@@ -93,7 +74,7 @@ model Question {
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
 
-  author   Person @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id])
   authorId String
 
   subject   Subject @relation(fields: [subjectId], references: [id])
@@ -115,7 +96,7 @@ model Answer {
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String
 
-  author   Person @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
   votes Vote[]
@@ -128,7 +109,7 @@ model Vote {
   voteType  Int
   createdAt DateTime @default(now())
 
-  author   Person @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
   answer   Answer @relation(fields: [answerId], references: [id], onDelete: Cascade)
