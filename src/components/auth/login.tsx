@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import z4 from "zod/v4"
 import { signIn } from 'next-auth/react'
-import Logo from '../navbar-components/logo'
+import Logo from '../header/logo'
 
 const loginFormSchema = z4.object({
   email: z4.string().min(1, "Informe o nome de usuário"),

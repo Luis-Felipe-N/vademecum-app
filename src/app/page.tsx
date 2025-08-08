@@ -1,76 +1,49 @@
-import CreateQuestionModal from "@/components/create-question-modal";
 import Header from "@/components/header";
-import { RecentQuestionsList } from "@/components/recent-questions-list";
+import { RecentQuestionsList } from "@/components/questions/recent-questions-list";
+import { Input } from "@/components/ui/input";
+import { SearchIcon } from "lucide-react";
 
 export default function Home() {
 
 
   return (
-    <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen font-[family-name:var(--font-geist-sans)] max-w-6xl mx-auto">
       <Header />
 
       <div className="flex justify-center items-center min-h-96 my-10">
         <div className="text-center max-w-5xl mt-5 px-5 mx-5">
-          <h1 className="text-6xl font-black font-[family-name:var(--font-outfit)]">
+          <h1 className="text-7xl font-black font-[family-name:var(--font-outfit)]">
             Qual sua dúvida?
-          </h1> 
-          <p className="text-white-70 mt-8 mb-4 mx-5 px-5">
+          </h1>
+          <p className="text-white-70 mt-4 mb-8 mx-5 px-5">
             No Vade Mecum UFT, sua pergunta encontra a resposta da comunidade.
             Seja uma dúvida sobre a matéria, uma questão de prova antiga ou um
             tópico desafiador, digite abaixo e conecte-se com seus colegas.
           </p>
+          <div className="grow">
+            <div className="relative mx-auto w-full max-w-xl">
+              <Input
+                className="peer h-12 ps-10 pe-14 focus-visible:border-emerald-300/80 focus-visible:ring-emerald-300/50"
+                placeholder="Prova de POO 2025/1..."
+                type="search"
+              />
+              <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-4 peer-disabled:opacity-50">
+                <SearchIcon size={16} />
+              </div>
+              <div className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-4">
+                <kbd className="text-muted-foreground/70 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
+                  ⌘K
+                </kbd>
+              </div>
+            </div>
+          </div>
 
-          <CreateQuestionModal />
         </div>
       </div>
 
       <section className="max-w-4xl mx-auto mt-5 px-5">
         <strong className="block mb-4">Perguntas recentes</strong>
         <RecentQuestionsList />
-          {/* <Card>
-            <CardHeader className="text-white text-xs flex items-center justify-between">
-              <nav className="flex items-center gap-2">
-                <a className="underline" href="">#UX</a>
-                <a className="underline" href="">#UI</a>
-                <a className="underline" href="">#Front-end</a>
-                <a className="underline" href="">#Back-end</a>
-                <a className="underline" href="">#DevOps</a>
-              </nav>
-              <time dateTime="2023-10-01T12:00:00Z" className="text-white-50">
-                1 de outubro de 2023
-              </time>
-            </CardHeader>
-            <CardContent className="text-white-70">
-            
-            <strong className="text-3xl">Como criar uma interface de usuário responsiva?</strong>
-            <p className="text-white-70 mt-4">
-              Estou tentando fazer uma página que se adapte a diferentes tamanhos
-              de tela, mas não sei por onde começar. Alguma dica?
-            </p>
-            <figure className="my-4">
-             <div className="flex justify-center bg-accent p-1">
-               <img
-              src="https://cdn.dribbble.com/userupload/15215190/file/original-25e4f6f605193322cc2151062f8ce0a6.jpg?resize=1024x768&vertical=center"
-              alt="Exemplo de interface de usuário responsiva"
-              className="text-center rounded-lg object-cover max-h-72"
-              />
-             </div>
-              <figcaption className="text-xs text-white/60 mt-2">
-                <span lang="pt">Exemplo de interface de usuário responsiva</span>
-              </figcaption>
-            </figure>
-            <div className="flex items-center gap-2 mt-4 text-xs text-white/70">
-              <span className="text-white-50">2 respostas</span> 
-              <span className="text-white-50">30 curtidas</span> 
-            </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full ">
-                Responder
-              </Button>
-            </CardFooter>
-          </Card> */}
-        
       </section>
     </div>
   );

@@ -75,22 +75,20 @@ export default function CreateQuestionModal() {
     toast.promise(promise, {
       loading: "Publicando sua pergunta...",
       success: () => {
-        // Você pode fechar o modal aqui se desejar
         return "Pergunta publicada com sucesso!";
       },
       error: (err) => `Erro: ${err.message}`,
     });
-      
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button disabled={isLoading} className="rounded-full h-12 px-8 cursor-pointer" >
+        <Button disabled={isLoading} className="rounded-full h-10 px-6 cursor-pointer text-white font-bold" >
           {isLoading ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
-            <HelpCircleIcon className="mr-2 size-4" />
+            <HelpCircleIcon className="size-4" />
           )}
           Fazer uma pergunta
         </Button>

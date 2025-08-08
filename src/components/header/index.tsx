@@ -1,40 +1,35 @@
-import { useId } from "react"
-import { SearchIcon } from "lucide-react"
+'use client';
 
-import Logo from "@/components/navbar-components/logo"
-import NotificationMenu from "@/components/navbar-components/notification-menu"
-import UserMenu from "@/components/navbar-components/user-menu"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useId } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
+import Logo from "./logo";
+import UserMenu from "./user-menu";
+import Register from "../auth/register";
+import Login from "../auth/login";
+import { useSession } from "next-auth/react";
+import CreateQuestionModal from "../questions/create-question/create-question-modal";
 
-// Navigation links array to be used in both desktop and mobile menus
-const navigationLinks = [
-  { href: "#", label: "Home", active: true },
-  { href: "#", label: "Features" },
-  { href: "#", label: "Pricing" },
-  { href: "#", label: "About" },
-]
+const navigationLinks = [{ href: "#", label: "Home", active: true }];
 
-export default function Component() {
-  const id = useId()
+export default function Header() {
+  const { status } = useSession() 
 
   return (
-    <header className="border-b px-4 md:px-6">
+    <header className="px-4 md:px-6 mx-auto py-4">
       <div className="flex h-16 items-center justify-between gap-4">
-        {/* Left side */}
         <div className="flex flex-1 items-center gap-2">
-          {/* Mobile menu trigger */}
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -87,60 +82,27 @@ export default function Component() {
               </NavigationMenu>
             </PopoverContent>
           </Popover>
-          {/* Logo */}
           <div className="flex items-center">
             <a href="#" className="text-primary hover:text-primary/90">
               <Logo />
             </a>
           </div>
         </div>
-        {/* Middle area */}
-        <div className="grow">
-          {/* Search form */}
-          <div className="relative mx-auto w-full max-w-xs">
-            <Input
-              id={id}
-              className="peer h-8 ps-8 pe-10"
-              placeholder="Search..."
-              type="search"
-            />
-            <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-2 peer-disabled:opacity-50">
-              <SearchIcon size={16} />
-            </div>
-            <div className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-2">
-              <kbd className="text-muted-foreground/70 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
-                ⌘K
-              </kbd>
-            </div>
-          </div>
-        </div>
-        {/* Right side */}
+
         <div className="flex flex-1 items-center justify-end gap-2">
-          {/* Notification */}
-          <NotificationMenu />
-          {/* User menu */}
-          <UserMenu />
+          { status !== "authenticated" ? (
+            <>
+              <Register />
+              <Login />
+            </>
+          ) : (
+            <div className="flex gap-4 items-center">
+              <CreateQuestionModal />
+              <UserMenu />
+            </div>
+          )}
         </div>
-      </div>
-      {/* Bottom navigation */}
-      <div className="border-t py-2 max-md:hidden">
-        {/* Navigation menu */}
-        <NavigationMenu>
-          <NavigationMenuList className="gap-2">
-            {navigationLinks.map((link, index) => (
-              <NavigationMenuItem key={index}>
-                <NavigationMenuLink
-                  active={link.active}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                >
-                  {link.label}
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
       </div>
     </header>
-  )
+  );
 }
