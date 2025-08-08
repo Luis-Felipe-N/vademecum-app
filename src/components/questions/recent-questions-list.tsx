@@ -52,14 +52,14 @@ export function RecentQuestionsList() {
               <p className="text-white-70 mt-4 line-clamp-3">
                 {question.content}
               </p>
-              <div className="flex items-center gap-4 mt-4 text-xs">
+            </CardContent>
+            <CardFooter className="flex justify-between items-center">
+              <div className="flex items-center gap-4 text-xs">
                 <span className="text-white-50">
                   0 respostas
                 </span>
               </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full">Responder</Button>
+              <Button className="text-white">Responder</Button>
             </CardFooter>
           </Card>
         ))

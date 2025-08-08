@@ -23,7 +23,7 @@ export default function Home() {
           <div className="grow">
             <div className="relative mx-auto w-full max-w-xl">
               <Input
-                className="peer h-12 ps-10 pe-14 focus-visible:border-emerald-300/80 focus-visible:ring-emerald-300/50"
+                className="peer h-12 ps-10 pe-14 focus-visible:border-cyan-300/80 focus-visible:ring-cyan-300/50"
                 placeholder="Prova de POO 2025/1..."
                 type="search"
               />

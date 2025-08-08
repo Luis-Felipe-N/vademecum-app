@@ -77,7 +77,7 @@ export default function Login() {
   return (
      <Dialog>
       <DialogTrigger asChild>
-        <Button>Login</Button>
+        <Button className='text-white'>Login</Button>
       </DialogTrigger>
       <DialogContent>
         <div className="flex flex-col items-center gap-2">
