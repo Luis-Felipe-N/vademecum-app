@@ -9,7 +9,7 @@ export default function Home() {
     <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
       <Header />
 
-      <div className="flex justify-center pt-10 pb-10">
+      <div className="flex justify-center items-center min-h-96 my-10">
         <div className="text-center max-w-5xl mt-5 px-5 mx-5">
           <h1 className="text-6xl font-black font-[family-name:var(--font-outfit)]">
             Qual sua dúvida?

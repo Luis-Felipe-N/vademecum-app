@@ -32,7 +32,7 @@ export function RecentQuestionsList() {
     <div className="space-y-4">
       {questions && questions.length > 0 ? (
         questions.map((question) => (
-          <Card key={question.id} className="bg-cyan-600">
+          <Card key={question.id} >
             <CardHeader className="text-xs flex items-center justify-between">
               <nav className="flex items-center gap-2">
                 <a className="underline" href="#">
@@ -52,9 +52,9 @@ export function RecentQuestionsList() {
               <p className="text-white-70 mt-4 line-clamp-3">
                 {question.content}
               </p>
-              <div className="flex items-center gap-4 mt-4 text-xs text-white/70">
+              <div className="flex items-center gap-4 mt-4 text-xs">
                 <span className="text-white-50">
-                  11.234 respostas
+                  0 respostas
                 </span>
               </div>
             </CardContent>

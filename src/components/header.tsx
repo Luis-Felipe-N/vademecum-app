@@ -30,11 +30,9 @@ export default function Header() {
   const { status } = useSession() 
 
   return (
-    <header className="border-b px-4 md:px-6">
+    <header className="px-4 md:px-6 max-w-7xl mx-auto py-4">
       <div className="flex h-16 items-center justify-between gap-4">
-        {/* Left side */}
         <div className="flex flex-1 items-center gap-2">
-          {/* Mobile menu trigger */}
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -123,10 +121,10 @@ export default function Header() {
             </>
           ) : (
             <>
-              <div className="p-2 text-xs bg-zinc-800 rounded-full">
+              {/* <div className="p-2 text-xs bg-zinc-800 rounded-full">
                 0 
                 moedas
-              </div>            
+              </div>             */}
               <UserMenu />
             </>
           )}

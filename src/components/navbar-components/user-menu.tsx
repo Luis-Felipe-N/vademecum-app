@@ -31,12 +31,12 @@ export default function UserMenu() {
   }
 
   if (!data) return null
-  console.log('User data:', data.user.profilePicture)
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
-          <Avatar>
+          <Avatar className="h-12 w-12">
             {data.user.profilePicture && (
               <AvatarImage
                 src={data.user.profilePicture || ""}
