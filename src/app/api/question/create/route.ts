@@ -6,7 +6,7 @@ import z from "zod/v4";
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
-  console.log("Session:", !session.user);
+  
   if (!session || !session.user) {
     return NextResponse.json({ error: "Usuário não autenticado" }, { status: 401 });
   }
