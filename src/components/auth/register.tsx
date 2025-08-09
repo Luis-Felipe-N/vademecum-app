@@ -105,7 +105,7 @@ export default function Register() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className='bg-zinc-900'>Registrar</Button>
+        <Button variant="outline">Registrar</Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5">
         <form className="space-y-4" onSubmit={handleSubmit(handleCreateAccount)}>

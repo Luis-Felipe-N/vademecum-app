@@ -7,7 +7,7 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen font-[family-name:var(--font-geist-sans)] max-w-6xl mx-auto">
+    <div className="min-h-screen font-[family-name:var(--font-geist-sans)] max-w-6xl mx-auto mb-10">
       <Header />
 
       <div className="flex justify-center items-center min-h-96 my-10">

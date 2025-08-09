@@ -33,7 +33,12 @@ export async function GET(request: NextRequest) {
             name: true
           }
         }
-      }
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 10,
+      skip: (parsedQuery.success ? parsedQuery.data.page - 1 : 0) * 10,
     });
 
     return new Response(JSON.stringify(questions), {

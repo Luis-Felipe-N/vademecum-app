@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { useGetRecentQuestions } from "@/http/use-get-questions";
 import { Loader2 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export function RecentQuestionsList() {
   const { data: questions, isLoading, isError, error } = useGetRecentQuestions();
-  
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center p-10">
@@ -32,13 +33,29 @@ export function RecentQuestionsList() {
     <div className="space-y-4">
       {questions && questions.length > 0 ? (
         questions.map((question) => (
-          <Card key={question.id} className="bg-zinc-900">
+          <Card key={question.id} className="bg-zinc-950/20">
             <CardHeader className="text-xs flex items-center justify-between">
-              <nav className="flex items-center gap-2">
-                <a className="underline" href="#">
+              <div className="flex items-center gap-2">
+                <Avatar >
+                  {question.author.profilePicture && (
+                    <AvatarImage
+                      src={question.author.profilePicture || ""}
+                      alt="Profile image"
+                    />
+                  )}
+                  <AvatarFallback>
+                    {question.author.name?.charAt(0).toUpperCase() || "U"}
+                  </AvatarFallback>
+                </Avatar>
+              <div>
+                <strong className="text-xs">{question.author.name}</strong>
+                <nav className="flex items-center gap-2">
+                <a className="underline text-accent-foreground/70 text-xs" href="#">
                   #{question.subject.name}
                 </a>
               </nav>
+              </div>
+              </div>
               <time dateTime={new Date(question.createdAt).toISOString()}>
                 {new Date(question.createdAt).toLocaleDateString("pt-BR", {
                   day: "numeric",
@@ -59,7 +76,7 @@ export function RecentQuestionsList() {
                   0 respostas
                 </span>
               </div>
-              <Button className="text-white">Responder</Button>
+              <Button className="text-white cursor-not-allowed hover:bg-cyan-700" title="Trabalhando nisso...">Responder</Button>
             </CardFooter>
           </Card>
         ))

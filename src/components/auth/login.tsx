@@ -101,6 +101,7 @@ export default function Login() {
               <Label htmlFor={`email`}>Email</Label>
               <Input
                 {...register('email', { required: true })}
+                className='h-12'
                 placeholder="oi@gmail.com"
                 type="email"
                 required
@@ -110,7 +111,8 @@ export default function Login() {
               <Label htmlFor={`password`}>Senha</Label>
               <Input
                 {...register('password', { required: true })}
-                placeholder='******'
+                className='h-12 items-center'
+                placeholder='sua-senha-secreta'
                 type="password"
                 required
               />
