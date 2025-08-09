@@ -6,7 +6,6 @@ import { useCharacterLimit } from "@/hooks/use-character-limit"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
