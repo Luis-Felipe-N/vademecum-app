@@ -1,10 +1,10 @@
-import Header from "@/components/header";
-import { RecentQuestionsList } from "@/components/questions/recent-questions-list";
-import { Input } from "@/components/ui/input";
-import { SearchIcon } from "lucide-react";
+import Header from "@/components/core/header";
+import { RecentQuestionsList } from "@/components/feature/questions/recent-questions-list";
+import { SearchQuestions } from "@/components/feature/questions/search-questions";
+// import { getAvailableSubjects } from "@/server/get-available-subjects";
 
-export default function Home() {
-
+export default async function Home() {
+  // const subjects = await getAvailableSubjects();
 
   return (
     <div className="min-h-screen font-[family-name:var(--font-geist-sans)] max-w-6xl mx-auto mb-10">
@@ -16,33 +16,30 @@ export default function Home() {
             Qual sua dúvida?
           </h1>
           <p className="text-white-70 mt-4 mb-8 mx-5 px-5">
-            No Vade Mecum UFT, sua pergunta encontra a resposta da comunidade.
+            No Vade Mecum, sua pergunta encontra a resposta da comunidade.
             Seja uma dúvida sobre a matéria, uma questão de prova antiga ou um
             tópico desafiador, digite abaixo e conecte-se com seus colegas.
           </p>
-          <div className="grow">
-            <div className="relative mx-auto w-full max-w-xl">
-              <Input
-                className="peer h-12 ps-10 pe-14 focus-visible:border-cyan-300/80 focus-visible:ring-cyan-300/50"
-                placeholder="Prova de POO 2025/1..."
-                type="search"
-              />
-              <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-4 peer-disabled:opacity-50">
-                <SearchIcon size={16} />
-              </div>
-              <div className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-4">
-                <kbd className="text-muted-foreground/70 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
-                  ⌘K
-                </kbd>
-              </div>
-            </div>
-          </div>
-
+          <SearchQuestions />
+          {/* <nav className="mt-8">
+            <ul className="flex justify-center gap-4">
+              {subjects.map((subject) => (
+                <li key={subject.id}>
+                  <a
+                    href="#"
+                    className="font-semibold hover:underline"
+                  >
+                    {subject.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav> */}
         </div>
       </div>
 
+
       <section className="max-w-4xl mx-auto mt-5 px-5">
-        <strong className="block mb-4">Perguntas recentes</strong>
         <RecentQuestionsList />
       </section>
     </div>

@@ -4,6 +4,7 @@ export type CreateQuestionData = {
   subjectId: string | null
   title: string
   content: string
+  file?: string
 }
 
 export type QuestionResponse = Question &{

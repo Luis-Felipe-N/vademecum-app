@@ -119,3 +119,31 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Small (sm) */
+@media (max-width: 640px) {
+  html {
+    font-size: 70.5% !important;
+  }
+}
+
+/* Medium (md) */
+@media (min-width: 768px) {
+  html {
+    font-size: 87.5% !important;
+  }
+}
+
+/* Large (lg) */
+@media (min-width: 1024px) {
+  html {
+    font-size: 93.75% !important;
+  }
+}
+
+/* Extra Large (xl) */
+@media (min-width: 1280px) {
+  html {
+    font-size: 100% !important;
+  }
+}

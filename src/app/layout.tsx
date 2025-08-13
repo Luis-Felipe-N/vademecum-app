@@ -3,7 +3,7 @@ import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { QueryProvider } from "@/providers/useQueryProvider";
-import NextAuthSessionProvider from "./provider/sessionProvider";
+import NextAuthSessionProvider from "../provider/sessionProvider";
 import { Toaster } from "sonner";
 
 const geistSans = Inter({

@@ -6,7 +6,7 @@ import z from "zod/v4";
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
-  
+
   if (!session || !session.user) {
     return NextResponse.json({ error: "Usuário não autenticado" }, { status: 401 });
   }
@@ -17,20 +17,22 @@ export async function POST(request: NextRequest) {
     subjectId: z.string().min(1, "Inform a matéria"),
     title: z.string().min(1, "Título é obrigatório"),
     content: z.string().min(1, "Conteúdo é obrigatório"),
+    file: z.string().optional(),
   })
 
   try {
     const body = await request.json();
     const parsedData = questionSchema.parse(body)
 
-    const { subjectId, title, content } = parsedData;
+    const { subjectId, title, content, file } = parsedData;
 
     const newQuestion = await client.question.create({
       data: {
-        subjectId, 
+        subjectId,
         title,
         content,
         authorId,
+        file: file || undefined,
       },
       include: {
         author: {
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(newQuestion, { status: 201 }); // 201 Created
 
   } catch (error) {
-     const errorResponse = {
+    const errorResponse = {
       status: 'error',
       message:
         error instanceof Error

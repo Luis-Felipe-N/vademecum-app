@@ -17,7 +17,7 @@ import UserMenu from "./user-menu";
 import Register from "../auth/register";
 import Login from "../auth/login";
 import { useSession } from "next-auth/react";
-import CreateQuestionModal from "../questions/create-question/create-question-modal";
+import CreateQuestionModal from "../feature/questions/create-question/create-question-modal";
 
 const navigationLinks = [{ href: "#", label: "Home", active: true }];
 
