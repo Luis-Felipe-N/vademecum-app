@@ -2,16 +2,12 @@
 import client from "@/lib/prisma";
 import { NextResponse, type NextRequest } from "next/server";
 
-// Interface para definir a estrutura esperada dos parâmetros da rota
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
-
-// A tipagem correta para o segundo argumento
-export async function GET(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+// A forma correta e mais comum de tipar os parâmetros da rota
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> } 
+) {
+  const { id } = await params;
 
   // Validação simples para garantir que o ID não está vazio
   if (!id) {
@@ -21,7 +17,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const question = await client.question.findUnique({
       where: {
-        id: id, // Usa o ID diretamente dos parâmetros
+        id: id, // Usamos o ID diretamente, sem Zod aqui.
       },
       include: {
         author: {
@@ -47,4 +43,4 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     console.error("Erro ao buscar pergunta:", error);
     return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 });
   }
-}
+} 
