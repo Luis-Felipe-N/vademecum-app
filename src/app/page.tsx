@@ -1,6 +1,7 @@
 import Header from "@/components/core/header";
 import { RecentQuestionsList } from "@/components/feature/questions/recent-questions-list";
 import { SearchQuestions } from "@/components/feature/questions/search-questions";
+import { Suspense } from "react";
 // import { getAvailableSubjects } from "@/server/get-available-subjects";
 
 export default async function Home() {
@@ -20,7 +21,9 @@ export default async function Home() {
             Seja uma dúvida sobre a matéria, uma questão de prova antiga ou um
             tópico desafiador, digite abaixo e conecte-se com seus colegas.
           </p>
-          <SearchQuestions />
+          <Suspense>
+            <SearchQuestions />
+          </Suspense>
           {/* <nav className="mt-8">
             <ul className="flex justify-center gap-4">
               {subjects.map((subject) => (

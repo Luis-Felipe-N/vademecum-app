@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "docs.uft.edu.br",
       },
+      {
+        protocol: "https",
+        hostname: "8tp6hyi8fokrxfbb.public.blob.vercel-storage.com",
+      }
     ]
   }
 };

@@ -9,7 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export function RecentQuestionsList() {
-  const { data: questions, isLoading, isError, error } = useGetRecentQuestions();   
+  const { data: questions, isLoading, isError, error } = useGetRecentQuestions();
 
   if (isLoading) {
     return (
@@ -78,6 +78,8 @@ export function RecentQuestionsList() {
                   <figure className="my-4">
                     <div className="flex justify-center bg-accent p-1">
                       <Image
+                        width={384}
+                        height={500}
                         src={question.file}
                         alt="Exemplo de interface de usuário responsiva"
                         className="text-center rounded-lg object-cover max-h-96"
