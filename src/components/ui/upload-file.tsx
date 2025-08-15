@@ -68,6 +68,8 @@ export default function UploadFile() {
           {previewUrl ? (
             <div className="absolute inset-0">
               <Image
+              width={1000}
+              height={1000}
                 src={previewUrl}
                 alt={files[0]?.file?.name || "Uploaded image"}
                 className="size-full object-cover"
@@ -82,10 +84,10 @@ export default function UploadFile() {
                 <ImageUpIcon className="size-4 opacity-60" />
               </div>
               <p className="mb-1.5 text-sm font-medium">
-                Drop your image here or click to browse
+                Arraste e solte ou clique para enviar
               </p>
               <p className="text-muted-foreground text-xs">
-                Max size: {maxSizeMB}MB
+                Tamanho máximo: {maxSizeMB}MB
               </p>
             </div>
           )}
@@ -113,20 +115,6 @@ export default function UploadFile() {
           <span>{errors[0]}</span>
         </div>
       )}
-
-      <p
-        aria-live="polite"
-        role="region"
-        className="text-muted-foreground mt-2 text-center text-xs"
-      >
-        Single image uploader w/ max size ∙{" "}
-        <a
-          href="https://github.com/origin-space/originui/tree/main/docs/use-file-upload.md"
-          className="hover:text-foreground underline"
-        >
-          API
-        </a>
-      </p>
     </div>
   )
 }

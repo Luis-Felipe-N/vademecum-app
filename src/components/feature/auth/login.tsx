@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import z4 from "zod/v4"
 import { signIn } from 'next-auth/react'
-import Logo from '../core/logo'
+import Logo from '../../core/logo'
 
 const loginFormSchema = z4.object({
   email: z4.string().min(1, "Informe o nome de usuário"),
@@ -123,7 +123,7 @@ export default function Login() {
               Esqueceu sua senha?
             </a>
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full text-white">
             Entrar
           </Button>
         </form>

@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { QueryProvider } from "@/providers/useQueryProvider";
 import NextAuthSessionProvider from "../provider/sessionProvider";
 import { Toaster } from "sonner";
+import Header from "@/components/core/header";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
@@ -31,15 +32,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
-        <Toaster richColors/>
+        <Toaster richColors />
 
-        <ThemeProvider 
+        <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange>
           <NextAuthSessionProvider>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <div className="min-h-screen font-[family-name:var(--font-geist-sans)] max-w-6xl mx-auto mb-10">
+                <Header />
+
+                {children}
+              </div>
+            </QueryProvider>
           </NextAuthSessionProvider>
 
         </ThemeProvider>

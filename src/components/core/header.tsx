@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/popover";
 import Logo from "./logo";
 import UserMenu from "./user-menu";
-import Register from "../auth/register";
-import Login from "../auth/login";
+import Register from "../feature/auth/register";
+import Login from "../feature/auth/login";
 import { useSession } from "next-auth/react";
 import CreateQuestionModal from "../feature/questions/create-question/create-question-modal";
+import Link from "next/link";
 
 const navigationLinks = [{ href: "#", label: "Home", active: true }];
 
@@ -81,9 +82,9 @@ export default function Header() {
             </PopoverContent>
           </Popover>
           <div className="flex items-center">
-            <a href="#" className="text-primary hover:text-primary/90">
+            <Link href={'/'} className="text-primary hover:text-primary/90">
               <Logo />
-            </a>
+            </Link>
           </div>
         </div>
 

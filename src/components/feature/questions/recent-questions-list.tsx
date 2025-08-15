@@ -75,20 +75,20 @@ export function RecentQuestionsList() {
                 </p>
 
                 {question.file && (
-                  <figure className="my-4">
-                    <div className="flex justify-center bg-accent p-1">
-                      <Image
-                        width={384}
-                        height={500}
-                        src={question.file}
-                        alt="Exemplo de interface de usuário responsiva"
-                        className="text-center rounded-lg object-cover max-h-96"
-                      />
-                    </div>
-                    <figcaption className="text-xs text-white/60 mt-2">
-                      <span lang="pt">Enviado por {question.author.name}</span>
-                    </figcaption>
-                  </figure>
+                   <figure className="my-4">
+                                    <div className="flex justify-center bg-accent ">
+                                      <Image
+                                        width={1000}
+                                        height={500}
+                                        src={question.file}
+                                        alt="Exemplo de interface de usuário responsiva"
+                                        className="text-center  object-cover w-full"
+                                      />
+                                    </div>
+                                    <figcaption className="text-xs text-white/60 mt-2">
+                                      <span lang="pt">Enviado por {question.author.name}</span>
+                                    </figcaption>
+                                  </figure>
                 )}
               </CardContent>
               <CardFooter className="flex justify-between items-center">

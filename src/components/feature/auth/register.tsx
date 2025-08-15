@@ -2,10 +2,8 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ImagePlusIcon, Loader2 } from "lucide-react"
+import {  Loader2 } from "lucide-react"
 import { toast } from "sonner"
-
-import { useFileUpload } from "@/hooks/use-file-upload"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -23,6 +21,7 @@ import { Textarea } from "@/components/ui/textarea"
 import z4 from "zod/v4"
 import { useCharacterLimit } from '@/hooks/use-character-limit'
 import Image from 'next/image'
+import { UploadAvatar } from '../upload-avatar'
 
 const MAXLENGTH = 180
 
@@ -119,7 +118,7 @@ export default function Register() {
           </DialogDescription>
           <div className="overflow-y-auto">
             <ProfileBg />
-            <Avatar />
+            <UploadAvatar />
             <div className="px-6 pt-4 pb-6">
               <div className="flex flex-col gap-4 sm:flex-row">
                 <div className="flex-1 space-y-2">
@@ -186,8 +185,6 @@ export default function Register() {
 }
 
 function ProfileBg() {
-
-
   const currentImage = 'https://docs.uft.edu.br/share/proxy/alfresco-noauth/api/internal/shared/node/KyDCAa_pTxq58EXmS9TX1Q/content/Bandeira.jpg'
 
   return (
@@ -228,41 +225,3 @@ function ProfileBg() {
   )
 }
 
-
-function Avatar() {
-  const [{ files }, { openFileDialog, getInputProps }] = useFileUpload({
-    accept: "image/*",
-  })
-
-  const currentImage = files[0]?.preview || null
-
-  return (
-    <div className="-mt-10 px-6">
-      <div className="border-background bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-full border-4 shadow-xs shadow-black/10">
-        {currentImage && (
-          <Image
-            src={currentImage}
-            className="size-full object-cover"
-            width={80}
-            height={80}
-            alt="Profile image"
-          />
-        )}
-        <button
-          type="button"
-          className="focus-visible:border-ring focus-visible:ring-ring/50 absolute flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-          onClick={openFileDialog}
-          aria-label="Change profile picture"
-        >
-          <ImagePlusIcon size={16} aria-hidden="true" />
-        </button>
-        <input
-          {...getInputProps()}
-          name="profile_picture"
-          className="sr-only"
-          aria-label="Upload profile picture"
-        />
-      </div>
-    </div>
-  )
-}

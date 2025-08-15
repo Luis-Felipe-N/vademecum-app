@@ -33,7 +33,7 @@ export function SearchQuestions() {
       <div className="relative mx-auto w-full max-w-xl">
         <Input
           className="peer h-12 ps-10 pe-14 focus-visible:border-cyan-300/80 focus-visible:ring-cyan-300/50"
-          placeholder="Prova de POO 2025/1..."
+          placeholder="O que é um sistema monolítico?"
           type="search"
           onChange={(e) => {
             handleSearch(e.target.value);
