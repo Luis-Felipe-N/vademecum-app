@@ -39,9 +39,9 @@ export default function CreateQuestionModal() {
   });
   
   const onSubmit = async (data: CreateQuestionFormData) => {
+    console.log("ENVIANDO DADOPS");
     let fileUrl: string | undefined = undefined;
     const imageFile = data.file?.[0]?.file;
-    console.log("Image file:", imageFile);
     try {
       if (imageFile && imageFile instanceof File) {
         toast.info("Fazendo upload do anexo...");
@@ -54,6 +54,7 @@ export default function CreateQuestionModal() {
         fileUrl = blobResult.url;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { file: _, ...questionData } = data;
       
       const promise = createQuestionFn({ ...questionData, file: fileUrl });
@@ -150,7 +151,7 @@ export default function CreateQuestionModal() {
             <UploadFile />
 
             <DialogFooter>
-              <Button type="submit" form="create-question-form" className={`font-bold text-white cursor-pointer ${isPending && "cursor-not-allowed"}`} disabled={isPending}>
+              <Button type="submit" className={`font-bold text-white cursor-pointer ${isPending && "cursor-not-allowed"}`} disabled={isPending}>
                 {isPending && (<Loader2 className="mr-2 h-4 w-4 animate-spin" />)}
                 Enviar pergunta
               </Button>
