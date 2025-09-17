@@ -7,10 +7,14 @@ import { Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 export function RecentQuestionsList() {
-  const { data: questions, isLoading, isError, error } = useGetRecentQuestions();
+  const searchParams = useSearchParams()
+  const query = searchParams.get("query") ?? ""
+  const { data: questions, isLoading, isError, error } = useGetRecentQuestions(query);
 
+  console.log("QUESTIONS", questions, query);
   if (isLoading) {
     return (
       <div className="flex justify-center items-center p-10">
@@ -94,7 +98,7 @@ export function RecentQuestionsList() {
               <CardFooter className="flex justify-between items-center">
                 <div className="flex items-center gap-4 text-xs">
                   <span className="text-white-50">
-                    0 respostas
+                    {question._count.answers} respostas
                   </span>
                 </div>
                 <Button className="text-white  hover:bg-cyan-700" title="Trabalhando nisso...">

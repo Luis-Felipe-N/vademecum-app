@@ -1,7 +1,9 @@
 import type { CreateQuestionData, CreateQuestionError, QuestionResponse } from "@/types/question";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateQuestion() {  
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async (data: CreateQuestionData) => {
       const response  = await fetch("/api/question/create", {
@@ -21,8 +23,5 @@ export function useCreateQuestion() {
 
       return body as QuestionResponse;
     },
-    onMutate: () => {
-      
-    }
   })
 }

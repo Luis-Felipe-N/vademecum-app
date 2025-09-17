@@ -54,7 +54,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 
   return (
     <>
-      <CreateAnswerModal />
+      <CreateAnswerModal questionId={id}/>
       <main className="max-w-6xl mx-auto mb-10">
         <div className="grid grid-cols-3 md:grid-cols-3 gap-6">
           <div className="col-span-2">

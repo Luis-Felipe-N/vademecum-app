@@ -21,20 +21,6 @@ export default async function Home() {
           <Suspense>
             <SearchQuestions />
           </Suspense>
-          {/* <nav className="mt-8">
-            <ul className="flex justify-center gap-4">
-              {subjects.map((subject) => (
-                <li key={subject.id}>
-                  <a
-                    href="#"
-                    className="font-semibold hover:underline"
-                  >
-                    {subject.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav> */}
         </div>
       </div>
 

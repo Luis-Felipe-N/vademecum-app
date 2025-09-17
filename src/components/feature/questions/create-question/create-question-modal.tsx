@@ -41,7 +41,7 @@ export default function CreateQuestionModal() {
   const onSubmit = async (data: CreateQuestionFormData) => {
     let fileUrl: string | undefined = undefined;
     const imageFile = data.file?.[0]?.file;
-    console.log("Image file:", imageFile);
+    
     try {
       if (imageFile && imageFile instanceof File) {
         toast.info("Fazendo upload do anexo...");
@@ -66,7 +66,6 @@ export default function CreateQuestionModal() {
         error: (err) => `Erro: ${err.message}`,
       });
 
-      // form.reset();
     } catch (error) {
       console.error("Falha ao criar pergunta:", error);
     }

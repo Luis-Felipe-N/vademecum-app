@@ -1,4 +1,10 @@
-import type { Question, Subject, User } from "@prisma/client"
+import type { Question as QuestionPrisma, Subject, User } from "@prisma/client"
+
+export type Question = QuestionPrisma & {
+   _count?: {
+    answers: number
+  }
+}
 
 export type CreateQuestionData = {
   subjectId: string | null

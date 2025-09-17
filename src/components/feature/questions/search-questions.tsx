@@ -19,9 +19,9 @@ export function SearchQuestions() {
     clearTimeout(timeOutSearch)
     timeOutSearch = setTimeout(async () => {
       if (term) {
-        params.set('keyword', term);
+        params.set('query', term);
       } else {
-        params.delete('keyword');
+        params.delete('query');
       }
 
       replace(`${pathname}?${params.toString()}`);

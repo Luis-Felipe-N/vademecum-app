@@ -58,8 +58,6 @@ export default function Register() {
     resolver: zodResolver(createAccountFormSchema),
   })
 
-  console.log('Register component rendered', { errors, isSubmitting })
-
   async function handleCreateAccount(credentials: CreateAccountFormData) {
     try {
       const responseData = await fetch('api/auth/user/register', {
