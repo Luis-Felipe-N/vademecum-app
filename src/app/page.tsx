@@ -22,7 +22,9 @@ export default async function Home() {
 			</div>
 
 			<section className="max-w-4xl mx-auto mt-5 px-5">
-				<RecentQuestionsList />
+				<Suspense>
+					<RecentQuestionsList />
+				</Suspense>
 			</section>
 		</>
 	);

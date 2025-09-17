@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -39,11 +38,6 @@ export default function CreateAnswerModal({
 }: CreateAnswerModalProps) {
 	const { mutateAsync: createanswerFn, isPending } = useCreateAnswer();
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const pathname = usePathname();
-	const searchParams = useSearchParams();
-
-	console.log("PATHNAME", pathname, searchParams.values());
 
 	useEffect(() => {
 		if (window.location.hash === "#answer") {
