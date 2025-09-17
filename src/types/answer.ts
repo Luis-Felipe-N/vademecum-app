@@ -1,16 +1,16 @@
-import type { Answer, Subject, User } from "@prisma/client"
+import type { Answer, Subject, User } from "@prisma/client";
 
 export type CreateAnswerData = {
-  questionId: string
-  content: string
-  file?: string   
-}
+	questionId: string;
+	content: string;
+	file?: string;
+};
 
-export type AnswerResponse = Answer &{
-  author: Partial<User>; 
-  subject: Pick<Subject, "name">;
-}
+export type AnswerResponse = Answer & {
+	author: Partial<User>;
+	subject: Pick<Subject, "name">;
+};
 
 export type CreateAnswerError = {
-  message: string
-}
+	message: string;
+};

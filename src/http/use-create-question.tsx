@@ -1,27 +1,31 @@
-import type { CreateQuestionData, CreateQuestionError, QuestionResponse } from "@/types/question";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import type {
+	CreateQuestionData,
+	CreateQuestionError,
+	QuestionResponse,
+} from "@/types/question";
 
-export function useCreateQuestion() {  
-  const queryClient = useQueryClient()
+export function useCreateQuestion() {
 
-  return useMutation({
-    mutationFn: async (data: CreateQuestionData) => {
-      const response  = await fetch("/api/question/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      
-      const body = await response.json()
+	return useMutation({
+		mutationFn: async (data: CreateQuestionData) => {
+			const response = await fetch("/api/question/create", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
 
-      if (!response.ok) {
-        const errorMessage = (body as CreateQuestionError).message || "Falha ao criar a pergunta.";
-        throw new Error(errorMessage);
-    }
+			const body = await response.json();
 
-      return body as QuestionResponse;
-    },
-  })
+			if (!response.ok) {
+				const errorMessage =
+					(body as CreateQuestionError).message || "Falha ao criar a pergunta.";
+				throw new Error(errorMessage);
+			}
+
+			return body as QuestionResponse;
+		},
+	});
 }

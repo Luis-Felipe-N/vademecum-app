@@ -1,77 +1,68 @@
+import { BoltIcon, LogOutIcon } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
-  BoltIcon,
-  LogOutIcon,
-} from "lucide-react"
-
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-import { signOut, useSession } from "next-auth/react"
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function UserMenu() {
-  const { data } = useSession()
+	const { data } = useSession();
 
-  async function handleLogout() {
-    await signOut({
-      callbackUrl: "/",
-    })
-  }
+	async function handleLogout() {
+		await signOut({
+			callbackUrl: "/",
+		});
+	}
 
-  if (!data) return null
-  
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
-          <Avatar className="h-12 w-12">
-            {data.user.profilePicture && (
-              <AvatarImage
-                src={data.user.profilePicture || ""}
-                alt="Profile image"
-              />
-            )}
-            <AvatarFallback>
-              {data.user?.name?.charAt(0).toUpperCase() || "U"}
-            </AvatarFallback>
-          </Avatar>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-w-64" align="end">
-        <DropdownMenuLabel className="flex min-w-0 flex-col">
-          <span className="text-foreground truncate text-sm font-medium">
-            {data.user?.name}
-          </span>
-          <span className="text-muted-foreground truncate text-xs font-normal">
-            {data.user?.email || "No email provided"}
-          </span>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <BoltIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 1</span>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
+	if (!data) return null;
 
-        <DropdownMenuItem onClick={handleLogout}>
-          <LogOutIcon size={16} className="opacity-60" aria-hidden="true"/>
-          <span className="hover:text-red-200">Sair</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
+					<Avatar className="h-12 w-12">
+						{data.user.profilePicture && (
+							<AvatarImage
+								src={data.user.profilePicture || ""}
+								alt="Profile image"
+							/>
+						)}
+						<AvatarFallback>
+							{data.user?.name?.charAt(0).toUpperCase() || "U"}
+						</AvatarFallback>
+					</Avatar>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent className="max-w-64" align="end">
+				<DropdownMenuLabel className="flex min-w-0 flex-col">
+					<span className="text-foreground truncate text-sm font-medium">
+						{data.user?.name}
+					</span>
+					<span className="text-muted-foreground truncate text-xs font-normal">
+						{data.user?.email || "No email provided"}
+					</span>
+				</DropdownMenuLabel>
+				<DropdownMenuSeparator />
+				<DropdownMenuGroup>
+					<DropdownMenuItem>
+						<BoltIcon size={16} className="opacity-60" aria-hidden="true" />
+						<span>Option 1</span>
+					</DropdownMenuItem>
+				</DropdownMenuGroup>
+				<DropdownMenuSeparator />
+
+				<DropdownMenuItem onClick={handleLogout}>
+					<LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
+					<span className="hover:text-red-200">Sair</span>
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
 }
