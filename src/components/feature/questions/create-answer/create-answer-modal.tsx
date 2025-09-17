@@ -2,8 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,12 +40,14 @@ export default function CreateAnswerModal({
 }: CreateAnswerModalProps) {
 	const { mutateAsync: createanswerFn, isPending } = useCreateAnswer();
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const pathname = useSearchParams();
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (window.location.hash === "#answer") {
 			setIsModalOpen(true);
 		}
-	}, []);
+	}, [pathname]);
 
 	const handleChangeModal = (open: boolean) => {
 		if (!open) {
@@ -57,7 +61,24 @@ export default function CreateAnswerModal({
 
 	const form = useForm<CreateAnswerFormData>({
 		resolver: zodResolver(createAnswerSchema),
-		defaultValues: { content: "" },
+		defaultValues: {
+			content: `
+			<strong>Instruções para uma boa resposta:</strong>
+			<ul class="list-disc ml-5">
+				<li>Insira uma resposta clara e objetiva.</li>
+				<li>Utilize marcações para destacar partes importantes.</li>
+				<li>Se possível, adicione referências ou links úteis.</li>
+			</ul>
+			<br />
+			<strong>Exemplo de resposta:</strong>
+			<p>Aqui está uma resposta detalhada para a sua pergunta...</p>
+			<p>Você pode encontrar mais informações em <a href="https://example.com" class="text-blue-300 underline">este link</a>.</p>
+			<code>const example = "Este é um exemplo de código";
+			<br />
+			console.log(example);
+			
+			</code>
+			` },
 	});
 
 	const {
@@ -92,7 +113,14 @@ export default function CreateAnswerModal({
 				questionId,
 			});
 
-			console.log("PROMISE", promise);
+			toast.promise(promise, {
+				loading: "Publicando sua pergunta...",
+				success: () => {
+					handleChangeModal(false)
+					return "Pergunta publicada com sucesso!";
+				},
+				error: (err) => `Erro: ${err.message}`,
+			});
 		} catch (error) {
 			console.error("Falha ao criar pergunta:", error);
 		}
@@ -100,7 +128,7 @@ export default function CreateAnswerModal({
 
 	return (
 		<Dialog open={isModalOpen} onOpenChange={handleChangeModal}>
-			<DialogContent className="sm:max-w-7xl ">
+			<DialogContent className="sm:max-w-4xl">
 				<DialogHeader>
 					<DialogTitle>Responder pergunta</DialogTitle>
 					<DialogDescription>

@@ -1,4 +1,5 @@
 import type { Question as QuestionPrisma, Subject, User } from "@prisma/client";
+import type { AnswerResponse } from "./answer";
 
 export type Question = QuestionPrisma & {
 	_count?: {
@@ -16,6 +17,7 @@ export type CreateQuestionData = {
 export type QuestionResponse = Question & {
 	author: Partial<User>;
 	subject: Pick<Subject, "name">;
+	answers?: AnswerResponse[];
 };
 
 export type CreateQuestionError = {

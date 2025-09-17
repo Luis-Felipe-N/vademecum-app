@@ -40,7 +40,6 @@ export async function GET(request: NextRequest) {
 						name: true,
 					},
 				},
-				// Esta é a parte que retorna a contagem de respostas
 				_count: {
 					select: {
 						answers: true,

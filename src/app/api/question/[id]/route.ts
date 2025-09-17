@@ -5,7 +5,6 @@ export async function GET(
 	request: NextRequest,
 	{ params }: { params: Promise<{ id: string }> },
 ) {
-	
 	const { id } = await params;
 
 	if (!id) {
@@ -32,6 +31,26 @@ export async function GET(
 						name: true,
 					},
 				},
+				answers: {
+          orderBy: {
+            createdAt: "asc", // or 'desc' depending on your preference
+          },
+          take: 10,
+          include: {
+            author: {
+              select: {
+                name: true,
+                profilePicture: true,
+              },
+            },
+          },
+        },
+        // It's also a good practice to include the total answer count
+        _count: {
+          select: {
+            answers: true,
+          },
+        },
 			},
 		});
 

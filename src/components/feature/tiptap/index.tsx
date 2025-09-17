@@ -38,7 +38,7 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
 		content: content,
 		editorProps: {
 			attributes: {
-				class: "min-h-[156px] border rounded-md py-2 px-3",
+				class: "min-h-[156px] border rounded-md py-5 px-6 bg-zinc-900/50 outline-0",
 			},
 		},
 		onUpdate: ({ editor }) => {
