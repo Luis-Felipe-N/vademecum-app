@@ -163,9 +163,9 @@ export default function QuestionView({ params }: QuestionPageProps) {
 									<CardHeader className="text-xs flex items-center justify-between">
 										<div className="flex items-center gap-2">
 											<Avatar className="h-12 w-12">
-												{question.author.profilePicture && (
+												{answer.author.profilePicture && (
 													<AvatarImage
-														src={question.author.profilePicture || ""}
+														src={answer.author.profilePicture || ""}
 														alt="Profile image"
 													/>
 												)}
@@ -216,7 +216,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 												</div>
 												<figcaption className="text-xs text-white/60 mt-2">
 													<span lang="pt">
-														Enviado por {question.author.name}
+														Enviado por {answer.author.name}
 													</span>
 												</figcaption>
 											</figure>
@@ -226,7 +226,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 										<span className="text-zinc-400 text-xs flex items-center gap-1">
 											0 Curtidas
 										</span>
-										<Button title={`Curtir resposta de ${question.author.name}`} className="text-white bg-red-500/80 hover:bg-red-600 cursor-pointer">
+										<Button title={`Curtir resposta de ${answer.author.name}`} className="text-white bg-red-500/80 hover:bg-red-600 cursor-pointer">
 											Curtir
 										</Button>
 									</CardFooter>

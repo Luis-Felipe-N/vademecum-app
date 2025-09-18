@@ -170,7 +170,7 @@ export default function Register() {
 								Cancel
 							</Button>
 						</DialogClose>
-						<Button type="submit" disabled={isSubmitting}>
+						<Button type="submit" disabled={isSubmitting} className="text-slate-50 font-medium">
 							{isSubmitting ? (
 								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 							) : null}
@@ -184,21 +184,10 @@ export default function Register() {
 }
 
 function ProfileBg() {
-	const currentImage =
-		"https://docs.uft.edu.br/share/proxy/alfresco-noauth/api/internal/shared/node/KyDCAa_pTxq58EXmS9TX1Q/content/Bandeira.jpg";
 
 	return (
 		<div className="h-32">
 			<div className="bg-muted relative flex size-full items-center justify-center overflow-hidden">
-				{currentImage && (
-					<Image
-						className="size-full object-cover"
-						src={currentImage}
-						alt="Logo da UFT"
-						width={512}
-						height={96}
-					/>
-				)}
 				{/* <div className="absolute inset-0 flex items-center justify-center gap-2">
           <button
             type="button"
