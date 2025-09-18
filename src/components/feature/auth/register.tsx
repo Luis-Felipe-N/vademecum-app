@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z4 from "zod/v4";
+import Logo from "@/components/core/logo";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -55,7 +56,7 @@ export default function Register() {
 		setError,
 		formState: { isSubmitting },
 	} = useForm<CreateAccountFormData>({
-		resolver: zodResolver(createAccountFormSchema),
+		resolver: zodResolver(createAccountFormSchema)
 	});
 
 	async function handleCreateAccount(credentials: CreateAccountFormData) {
@@ -87,8 +88,7 @@ export default function Register() {
 			});
 		} catch (error) {
 			toast.error("Por favor, tente novamente mais tarde.", {
-				description:
-					`Erro: ${(error instanceof Error ? error.message : String(error))}`,
+				description: `Erro: ${error instanceof Error ? error.message : String(error)}`,
 				action: {
 					label: "Fechar",
 					onClick: () => console.log("Fechar"),
@@ -101,35 +101,42 @@ export default function Register() {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="outline">Registrar</Button>
+				<Button variant="outline" 	>Registrar</Button>
 			</DialogTrigger>
-			<DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5">
-				<form
-					className="space-y-4"
-					onSubmit={handleSubmit(handleCreateAccount)}
-				>
-					<DialogHeader className="contents space-y-0 text-left">
-						<DialogTitle className="border-b px-6 py-4 text-base">
+			<DialogContent>
+				<div className="flex flex-col items-center gap-2">
+					<div
+						className="flex size-11 shrink-0 items-center justify-center"
+						aria-hidden="true"
+					>
+						<Logo />
+					</div>
+					<DialogHeader>
+						<DialogTitle className="sm:text-center">
 							Cria conta
 						</DialogTitle>
+						<DialogDescription className="sm:text-center">
+							Crie uma conta para acessar todos os recursos.
+						</DialogDescription>
 					</DialogHeader>
-					<DialogDescription className="sr-only">
-						Crie uma conta para acessar todos os recursos.
-					</DialogDescription>
-					<div className="overflow-y-auto">
-						<ProfileBg />
-						<UploadAvatar />
-						<div className="px-6 pt-4 pb-6">
+				</div>
+
+				<form
+					className="space-y-5"
+					onSubmit={handleSubmit(handleCreateAccount)}
+				>
+					<div className="space-y-4">
 							<div className="flex flex-col gap-4 sm:flex-row">
 								<div className="flex-1 space-y-2">
 									<Label htmlFor={`first-name`}>Nome</Label>
-									<Input {...register("name", { required: true })} />
+									<Input placeholder="seu nome" {...register("name", { required: true })} />
 								</div>
 							</div>
 							<div className="mt-2">
 								<Label htmlFor={`email`}>Email</Label>
 								<div className="relative">
 									<Input
+										placeholder="seuemail@gmail.com"
 										{...register("email", { required: true })}
 										type="email"
 									/>
@@ -139,6 +146,7 @@ export default function Register() {
 								<Label htmlFor={`website`}>Senha</Label>
 								<div className="flex rounded-md shadow-xs">
 									<Input
+									placeholder="seu-senha-secreta"
 										{...register("password", { required: true })}
 										type="password"
 									/>
@@ -147,6 +155,7 @@ export default function Register() {
 							<div className="mt-2">
 								<Label htmlFor={`bio`}>Bio</Label>
 								<Textarea
+									placeholder="Fale um pouco sobre você (opcional)"
 									{...register("bio", { required: false })}
 									maxLength={MAXLENGTH}
 									onChange={handleChange}
@@ -162,15 +171,14 @@ export default function Register() {
 									caracteres restantes
 								</p>
 							</div>
-						</div>
+						
 					</div>
-					<DialogFooter className="border-t px-6 py-4">
-						<DialogClose asChild>
-							<Button type="button" variant="outline">
-								Cancel
-							</Button>
-						</DialogClose>
-						<Button type="submit" disabled={isSubmitting} className="text-slate-50 font-medium">
+					<DialogFooter className="">
+						<Button
+							type="submit"
+							disabled={isSubmitting}
+							className="text-white w-full"
+						>
 							{isSubmitting ? (
 								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 							) : null}
@@ -184,7 +192,6 @@ export default function Register() {
 }
 
 function ProfileBg() {
-
 	return (
 		<div className="h-32">
 			<div className="bg-muted relative flex size-full items-center justify-center overflow-hidden">
