@@ -8,6 +8,9 @@ export type CreateAnswerData = {
 export type AnswerResponse = Answer & {
 	author: Partial<User>;
 	subject: Pick<Subject, "name">;
+	_count: {
+		votes: number;
+	}
 };
 
 export type CreateAnswerError = {

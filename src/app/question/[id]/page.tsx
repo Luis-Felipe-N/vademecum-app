@@ -5,6 +5,7 @@ import { Loader2, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { use } from "react";
+import { Answer } from "@/components/feature/answer";
 import CreateAnswerModal from "@/components/feature/questions/create-answer/create-answer-modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -27,7 +28,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 
 	const { data: question, isLoading, isError } = useGetQuestion(id);
 	const { data: answers } = useGetAnswer(1, id);
-	
+
 	if (isLoading) {
 		return (
 			<div className="flex justify-center items-center p-10">
@@ -41,7 +42,6 @@ export default function QuestionView({ params }: QuestionPageProps) {
 			<div className="text-center text-red-500">Pergunta não encontrada.</div>
 		);
 	}
-
 
 	return (
 		<>
@@ -129,87 +129,8 @@ export default function QuestionView({ params }: QuestionPageProps) {
 								Nenhuma resposta ainda. Seja o primeiro!
 							</p>
 						) : (
-							answers?.map((answer: AnswerResponse, index: number) => (
-								<Card
-									key={answer.id}
-									className={`${index === 0 ? "bg-cyan-950/30 border-cyan-800/20" : "mt-4"} border-2`}
-								>
-									<CardHeader className="text-xs flex items-center justify-between">
-										<div className="flex items-center gap-2">
-											<Avatar className="h-12 w-12">
-												{answer.author.profilePicture && (
-													<AvatarImage
-														src={answer.author.profilePicture || ""}
-														alt="Profile image"
-													/>
-												)}
-												<AvatarFallback>
-													{answer.author.name?.charAt(0).toUpperCase() || "U"}
-												</AvatarFallback>
-											</Avatar>
-											<div>
-												<strong className="text-xs">
-													{question.author.name}
-												</strong>
-												<small className="block text-zinc-400">
-													<time
-														dateTime={new Date(answer.createdAt).toISOString()}
-													>
-														{new Date(answer.createdAt).toLocaleDateString(
-															"pt-BR",
-															{
-																day: "numeric",
-																month: "long",
-																year: "numeric",
-															},
-														)}
-													</time>
-												</small>
-											</div>
-										</div>
-									</CardHeader>
-									<CardContent>
-										<div
-											// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-											dangerouslySetInnerHTML={{
-												__html: answer.content,
-											}}
-										></div>
-										{question.file && (
-											<figure className="my-4">
-												<div className="flex justify-center bg-accent ">
-													<Image
-														width={1000}
-														height={500}
-														src={question.file}
-														alt="Exemplo de interface de usuário responsiva"
-														className="text-center  object-cover w-full"
-													/>
-												</div>
-												<figcaption className="text-xs text-white/60 mt-2">
-													<span lang="pt">
-														Enviado por {answer.author.name}
-													</span>
-												</figcaption>
-											</figure>
-										)}
-									</CardContent>
-									<CardFooter className="flex justify-between items-center">
-										<div className="flex items-center hover:bg-red-400/10 hover:text-accent-foreground rounded-md pe-3">
-											<Button
-												variant="ghost"
-												size="icon"
-												title={`Curtir resposta de ${answer.author.name}`}
-												className="cursor-pointer hover:bg-transparent ps-0"
-											>
-												<ThumbsUp className="" />
-											</Button>
-											<span className="text-zinc-400 text-xs flex items-center gap-1">
-												0
-											</span>
-										</div>
-									</CardFooter>
-								</Card>
+							answers?.map((answer: AnswerResponse) => (
+								<Answer answer={answer} key={answer.id} />
 							))
 						)}
 					</div>

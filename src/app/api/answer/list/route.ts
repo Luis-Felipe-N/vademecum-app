@@ -7,11 +7,9 @@ const getAnswersSchema = z.object({
 	page: z.coerce.number().int().min(1).default(1),
 });
 
-const PER_PAGE = 5;
-
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
-	console.log(searchParams);
+
 	try {
 		const validatedParams = getAnswersSchema.safeParse({
 			page: searchParams.get("page") || undefined,
@@ -29,7 +27,6 @@ export async function GET(request: NextRequest) {
 		}
 
 		const { questionId: validatedQuestionId, page } = validatedParams.data;
-		const skip = (page - 1) * PER_PAGE;
 
 		const answers = await client.answer.findMany({
 			where: validatedQuestionId ? { questionId: validatedQuestionId } : {},
@@ -40,7 +37,12 @@ export async function GET(request: NextRequest) {
 						profilePicture: true,
 					},
 				},
-			},
+        _count: {
+          select: {
+            votes: true,
+          },
+        },
+			},      
 			orderBy: {
 				createdAt: "asc",
 			},
