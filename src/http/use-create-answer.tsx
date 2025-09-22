@@ -1,11 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
 	AnswerResponse,
 	CreateAnswerData,
 	CreateAnswerError,
 } from "@/types/answer";
 
-export function useCreateAnswer() {
+export function useCreateAnswer(questionId: string) {
+	const queryClient = useQueryClient()
+
 	return useMutation({
 		mutationFn: async (data: CreateAnswerData) => {
 			const response = await fetch("/api/answer/create", {
@@ -13,7 +15,7 @@ export function useCreateAnswer() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(data),
+				body: JSON.stringify({ ...data, questionId }),
 			});
 
 			const body = await response.json();
@@ -26,6 +28,18 @@ export function useCreateAnswer() {
 
 			return body as AnswerResponse;
 		},
-		onMutate: () => {},
+		onMutate: () => { },
+
+		onSuccess() {
+			queryClient.setQueryData<Array<AnswerResponse>>(
+				['get-answer', questionId],
+				(answers) => {
+					console.log("answers", answers)
+					if (!answers) {
+						return answers
+					}
+				}
+			)
+		},
 	});
 }

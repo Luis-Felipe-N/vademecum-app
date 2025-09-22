@@ -38,7 +38,7 @@ type CreateAnswerModalProps = {
 export default function CreateAnswerModal({
 	questionId,
 }: CreateAnswerModalProps) {
-	const { mutateAsync: createanswerFn, isPending } = useCreateAnswer();
+	const { mutateAsync: createanswerFn, isPending } = useCreateAnswer(questionId);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const pathname = useSearchParams();
 
@@ -110,7 +110,6 @@ export default function CreateAnswerModal({
 			const promise = createanswerFn({
 				...answerData,
 				file: fileUrl,
-				questionId,
 			});
 
 			toast.promise(promise, {

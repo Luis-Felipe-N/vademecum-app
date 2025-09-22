@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { QuestionResponse } from "@/types/question";
 
-async function fetchRecentQuestions(query: string, page: number): Promise<[]> {
+async function fetchQuestions(query: string, page: number): Promise<[]> {
 	const response = await fetch(
 		`/api/question/list?query=${encodeURIComponent(query)}&page=${page}`,
 	);
@@ -11,9 +11,9 @@ async function fetchRecentQuestions(query: string, page: number): Promise<[]> {
 	return response.json();
 }
 
-export function useGetRecentQuestions(query: string = "", page: number = 1) {
+export function useGetQuestions(query: string = "", page: number = 1) {
 	return useQuery<QuestionResponse[]>({
 		queryKey: ["questions", query, page],
-		queryFn: () => fetchRecentQuestions(query, page),
+		queryFn: () => fetchQuestions(query, page),
 	});
 }

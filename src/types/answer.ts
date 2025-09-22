@@ -1,7 +1,6 @@
 import type { Answer, Subject, User } from "@prisma/client";
 
 export type CreateAnswerData = {
-	questionId: string;
 	content: string;
 	file?: string;
 };

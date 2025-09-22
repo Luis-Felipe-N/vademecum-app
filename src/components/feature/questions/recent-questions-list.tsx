@@ -11,7 +11,7 @@ import {
 	CardFooter,
 	CardHeader,
 } from "@/components/ui/card";
-import { useGetRecentQuestions } from "@/http/use-get-questions";
+import { useGetQuestions } from "@/http/use-get-questions";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 export function RecentQuestionsList() {
@@ -22,7 +22,7 @@ export function RecentQuestionsList() {
 		isLoading,
 		isError,
 		error,
-	} = useGetRecentQuestions(query);
+	} = useGetQuestions(query);
 
 	console.log("QUESTIONS", questions, query);
 	if (isLoading) {
@@ -118,7 +118,7 @@ export function RecentQuestionsList() {
 									className="text-white  hover:bg-cyan-700"
 									title="Trabalhando nisso..."
 								>
-									<Link href={`/question/${question.id}`}>Responder</Link>
+									<Link href={`/question/${question.id}#answer`}>Responder</Link>
 								</Button>
 							</CardFooter>
 						</Card>

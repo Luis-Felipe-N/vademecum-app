@@ -1,8 +1,7 @@
 "use client";
 
-import type { Answer } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { HandHeart, HeartIcon, Loader2 } from "lucide-react";
+import { Loader2, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { use } from "react";
@@ -15,19 +14,9 @@ import {
 	CardFooter,
 	CardHeader,
 } from "@/components/ui/card";
+import { useGetAnswer } from "@/http/use-get-answer";
+import { useGetQuestion } from "@/http/use-get-quetion";
 import type { AnswerResponse } from "@/types/answer";
-import type { QuestionResponse } from "@/types/question";
-
-const getQuestionById = async (id: string) => {
-	const response = await fetch(`/api/question/${id}`);
-	if (!response.ok) {
-		throw new Error("Network response was not ok");
-	}
-
-	const data: QuestionResponse = await response.json();
-	console.log("Fetched question data:", data, response);
-	return data;
-};
 
 interface QuestionPageProps {
 	params: Promise<{ id: string }>;
@@ -36,15 +25,9 @@ interface QuestionPageProps {
 export default function QuestionView({ params }: QuestionPageProps) {
 	const { id } = use(params);
 
-	const {
-		data: question,
-		isLoading,
-		isError,
-	} = useQuery({
-		queryKey: ["question", id],
-		queryFn: () => getQuestionById(id),
-	});
-
+	const { data: question, isLoading, isError } = useGetQuestion(id);
+	const { data: answers } = useGetAnswer(1, id);
+	
 	if (isLoading) {
 		return (
 			<div className="flex justify-center items-center p-10">
@@ -53,21 +36,12 @@ export default function QuestionView({ params }: QuestionPageProps) {
 		);
 	}
 
-	if (isError) {
+	if (isError || !question) {
 		return (
-			<div className="text-center text-red-500">
-				Erro ao carregar a pergunta.
-			</div>
+			<div className="text-center text-red-500">Pergunta não encontrada.</div>
 		);
 	}
 
-	if (!question) {
-		return (
-			<div className="text-center text-red-500">
-				Pergunta não encontrada.
-			</div>
-		);
-	}
 
 	return (
 		<>
@@ -150,12 +124,12 @@ export default function QuestionView({ params }: QuestionPageProps) {
 						<h3>Respostas: </h3>
 					</div>
 					<div className="col-span-2 space-y-4">
-						{question.answers?.length === 0 ? (
+						{answers?.length === 0 ? (
 							<p className="text-zinc-400">
 								Nenhuma resposta ainda. Seja o primeiro!
 							</p>
 						) : (
-							question.answers?.map((answer: AnswerResponse, index: number) => (
+							answers?.map((answer: AnswerResponse, index: number) => (
 								<Card
 									key={answer.id}
 									className={`${index === 0 ? "bg-cyan-950/30 border-cyan-800/20" : "mt-4"} border-2`}
@@ -177,32 +151,30 @@ export default function QuestionView({ params }: QuestionPageProps) {
 												<strong className="text-xs">
 													{question.author.name}
 												</strong>
-												<nav className="flex items-center gap-2">
-													<a
-														className="underline text-accent-foreground/70 text-xs"
-														href={`/subject/${question.subject.name}`}
+												<small className="block text-zinc-400">
+													<time
+														dateTime={new Date(answer.createdAt).toISOString()}
 													>
-														#{question.subject.name}
-													</a>
-												</nav>
+														{new Date(answer.createdAt).toLocaleDateString(
+															"pt-BR",
+															{
+																day: "numeric",
+																month: "long",
+																year: "numeric",
+															},
+														)}
+													</time>
+												</small>
 											</div>
 										</div>
-										<time dateTime={new Date(answer.createdAt).toISOString()}>
-											{new Date(answer.createdAt).toLocaleDateString(
-												"pt-BR",
-												{
-													day: "numeric",
-													month: "long",
-													year: "numeric",
-												},
-											)}
-										</time>
 									</CardHeader>
 									<CardContent>
-										{/** biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> */}
-										<div dangerouslySetInnerHTML={{
-											__html: answer.content,
-										}}></div>
+										<div
+											// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+											dangerouslySetInnerHTML={{
+												__html: answer.content,
+											}}
+										></div>
 										{question.file && (
 											<figure className="my-4">
 												<div className="flex justify-center bg-accent ">
@@ -223,12 +195,19 @@ export default function QuestionView({ params }: QuestionPageProps) {
 										)}
 									</CardContent>
 									<CardFooter className="flex justify-between items-center">
-										<span className="text-zinc-400 text-xs flex items-center gap-1">
-											0 Curtidas
-										</span>
-										<Button title={`Curtir resposta de ${answer.author.name}`} className="text-white bg-red-500/80 hover:bg-red-600 cursor-pointer">
-											Curtir
-										</Button>
+										<div className="flex items-center hover:bg-red-400/10 hover:text-accent-foreground rounded-md pe-3">
+											<Button
+												variant="ghost"
+												size="icon"
+												title={`Curtir resposta de ${answer.author.name}`}
+												className="cursor-pointer hover:bg-transparent ps-0"
+											>
+												<ThumbsUp className="" />
+											</Button>
+											<span className="text-zinc-400 text-xs flex items-center gap-1">
+												0
+											</span>
+										</div>
 									</CardFooter>
 								</Card>
 							))
