@@ -11,6 +11,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AvatarAuthor } from "./avatar-user";
 
 export default function UserMenu() {
 	const { data } = useSession();
@@ -27,17 +28,7 @@ export default function UserMenu() {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
-					<Avatar className="h-12 w-12">
-						{data.user.profilePicture && (
-							<AvatarImage
-								src={data.user.profilePicture || ""}
-								alt="Profile image"
-							/>
-						)}
-						<AvatarFallback>
-							{data.user?.name?.charAt(0).toUpperCase() || "U"}
-						</AvatarFallback>
-					</Avatar>
+					<AvatarAuthor author={data.user} size="sm" />
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="max-w-64" align="end">

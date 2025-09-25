@@ -150,10 +150,10 @@ export default function CreateAnswerModal({
 						<DialogFooter>
 							<Button
 								type="submit"
-								className={`font-bold text-white cursor-pointer ${isPending && "cursor-not-allowed"}`}
+								className={`font-bold text-white bg-emerald-600 hover:bg-emerald-700 cursor-pointer ${isPending && "cursor-not-allowed"}`}
 								disabled={isPending}
 							>
-								{isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+								{isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin " />}
 								Enviar resposta
 							</Button>
 						</DialogFooter>

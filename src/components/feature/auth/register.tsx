@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z4 from "zod/v4";
@@ -10,7 +10,6 @@ import Logo from "@/components/core/logo";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
-	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogFooter,
@@ -22,7 +21,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCharacterLimit } from "@/hooks/use-character-limit";
-import { UploadAvatar } from "../upload-avatar";
 
 const MAXLENGTH = 180;
 
@@ -56,7 +54,7 @@ export default function Register() {
 		setError,
 		formState: { isSubmitting },
 	} = useForm<CreateAccountFormData>({
-		resolver: zodResolver(createAccountFormSchema)
+		resolver: zodResolver(createAccountFormSchema),
 	});
 
 	async function handleCreateAccount(credentials: CreateAccountFormData) {
@@ -101,94 +99,104 @@ export default function Register() {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="outline" 	>Registrar</Button>
+				<Button variant="outline">Registrar</Button>
 			</DialogTrigger>
-			<DialogContent>
-				<div className="flex flex-col items-center gap-2">
-					<div
-						className="flex size-11 shrink-0 items-center justify-center"
-						aria-hidden="true"
-					>
-						<Logo />
-					</div>
-					<DialogHeader>
-						<DialogTitle className="sm:text-center">
-							Cria conta
-						</DialogTitle>
-						<DialogDescription className="sm:text-center">
-							Crie uma conta para acessar todos os recursos.
-						</DialogDescription>
-					</DialogHeader>
-				</div>
 
-				<form
-					className="space-y-5"
-					onSubmit={handleSubmit(handleCreateAccount)}
-				>
-					<div className="space-y-4">
-							<div className="flex flex-col gap-4 sm:flex-row">
-								<div className="flex-1 space-y-2">
-									<Label htmlFor={`first-name`}>Nome</Label>
-									<Input placeholder="seu nome" {...register("name", { required: true })} />
-								</div>
+			<DialogContent>
+				<AnimatePresence>
+					<motion.div
+						initial={{ opacity: 0, scale: 0.95 }}
+						animate={{ opacity: 1, scale: 1 }}
+						exit={{ opacity: 0, scale: 0.95 }}
+						transition={{ duration: 0.2 }}
+					>
+						<div className="flex flex-col items-center gap-2">
+							<div
+								className="flex size-11 shrink-0 items-center justify-center"
+								aria-hidden="true"
+							>
+								<Logo />
 							</div>
-							<div className="mt-2">
-								<Label htmlFor={`email`}>Email</Label>
-								<div className="relative">
-									<Input
-										placeholder="seuemail@gmail.com"
-										{...register("email", { required: true })}
-										type="email"
-									/>
-								</div>
-							</div>
-							<div className="mt-2">
-								<Label htmlFor={`website`}>Senha</Label>
-								<div className="flex rounded-md shadow-xs">
-									<Input
-									placeholder="seu-senha-secreta"
-										{...register("password", { required: true })}
-										type="password"
-									/>
-								</div>
-							</div>
-							<div className="mt-2">
-								<Label htmlFor={`bio`}>Bio</Label>
-								<Textarea
-									placeholder="Fale um pouco sobre você (opcional)"
-									{...register("bio", { required: false })}
-									maxLength={MAXLENGTH}
-									onChange={handleChange}
-								/>
-								{/** biome-ignore lint/a11y/useSemanticElements: <explanation> */}
-								<p
-									id={`description`}
-									className="text-muted-foreground mt-2 text-right text-xs"
-									role="status"
-									aria-live="polite"
-								>
-									<span className="tabular-nums">{limit - characterCount}</span>{" "}
-									caracteres restantes
-								</p>
-							</div>
-						
-					</div>
-					<DialogFooter className="">
-						<Button
-							type="submit"
-							disabled={isSubmitting}
-							className="text-white w-full"
+							<DialogHeader>
+								<DialogTitle className="sm:text-center">
+									Cria conta
+								</DialogTitle>
+								<DialogDescription className="sm:text-center">
+									Crie uma conta para acessar todos os recursos.
+								</DialogDescription>
+							</DialogHeader>
+						</div>
+
+						<form
+							className="space-y-5"
+							onSubmit={handleSubmit(handleCreateAccount)}
 						>
-							{isSubmitting ? (
-								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-							) : null}
-							Registrar
-						</Button>
-					</DialogFooter>
-				</form>
+							<div className="space-y-4">
+								<div className="flex flex-col gap-4 sm:flex-row">
+									<div className="flex-1 space-y-2">
+										<Label htmlFor={`first-name`}>Nome</Label>
+										<Input placeholder="seu nome" {...register("name", { required: true })} />
+									</div>
+								</div>
+								<div className="mt-2">
+									<Label htmlFor={`email`}>Email</Label>
+									<div className="relative">
+										<Input
+											placeholder="seuemail@gmail.com"
+											{...register("email", { required: true })}
+											type="email"
+										/>
+									</div>
+								</div>
+								<div className="mt-2">
+									<Label htmlFor={`website`}>Senha</Label>
+									<div className="flex rounded-md shadow-xs">
+										<Input
+											placeholder="seu-senha-secreta"
+											{...register("password", { required: true })}
+											type="password"
+										/>
+									</div>
+								</div>
+								<div className="mt-2">
+									<Label htmlFor={`bio`}>Bio</Label>
+									<Textarea
+										placeholder="Fale um pouco sobre você (opcional)"
+										{...register("bio", { required: false })}
+										maxLength={MAXLENGTH}
+										onChange={handleChange}
+									/>
+									{/** biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+									<p
+										id={`description`}
+										className="text-muted-foreground mt-2 text-right text-xs"
+										role="status"
+										aria-live="polite"
+									>
+										<span className="tabular-nums">{limit - characterCount}</span>{" "}
+										caracteres restantes
+									</p>
+								</div>
+
+							</div>
+							<DialogFooter className="">
+								<Button
+									type="submit"
+									disabled={isSubmitting}
+									className="text-white w-full"
+								>
+									{isSubmitting ? (
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+									) : null}
+									Registrar
+								</Button>
+							</DialogFooter>
+						</form>
+					</motion.div>
+				</AnimatePresence>
 			</DialogContent>
 		</Dialog>
-	);
+	)
 }
 
 function ProfileBg() {

@@ -115,7 +115,7 @@ export function RecentQuestionsList() {
 									</span>
 								</div>
 								<Button
-									className="text-white  hover:bg-cyan-700"
+									className="text-white bg-emerald-600  hover:bg-emerald-700"
 									title="Trabalhando nisso..."
 								>
 									<Link href={`/question/${question.id}#answer`}>Responder</Link>
