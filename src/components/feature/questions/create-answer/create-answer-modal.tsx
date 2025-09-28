@@ -33,10 +33,11 @@ type CreateAnswerFormData = z.infer<typeof createAnswerSchema>;
 
 type CreateAnswerModalProps = {
 	questionId: string;
+	onCreateAnswer: (answerId: string) => void
 };
 
 export default function CreateAnswerModal({
-	questionId,
+	questionId, onCreateAnswer
 }: CreateAnswerModalProps) {
 	const { mutateAsync: createanswerFn, isPending } = useCreateAnswer(questionId);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -85,10 +86,7 @@ export default function CreateAnswerModal({
 		formState: { errors },
 	} = form;
 
-	console.log("ERROS FORMULÁRIO", errors);
-
 	const onSubmit = async (data: CreateAnswerFormData) => {
-		console.log("ENVIANDO DADOS");
 
 		let fileUrl: string | undefined;
 		// const imageFile = data.file?.[0]?.file;
@@ -116,6 +114,7 @@ export default function CreateAnswerModal({
 				loading: "Publicando sua pergunta...",
 				success: () => {
 					handleChangeModal(false)
+					onCreateAnswer('criado')
 					return "Pergunta publicada com sucesso!";
 				},
 				error: (err) => `Erro: ${err.message}`,

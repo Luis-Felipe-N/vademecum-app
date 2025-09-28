@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import z4, { z } from "zod/v4";
+import z4 from "zod/v4";
 import { authOptions } from "@/lib/auth/authOptions";
 import client from "@/lib/prisma";
 
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
 	const authorId = session.user.id;
 	const voteSchema = z4.object({
-		answerId: z.string().min(1, "ID da resposta é obrigatório"),
+		answerId: z4.string().min(1, "ID da resposta é obrigatório"),
 	});
 
 	const body = await request.json();

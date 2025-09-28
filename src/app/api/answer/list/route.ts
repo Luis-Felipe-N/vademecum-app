@@ -37,15 +37,13 @@ export async function GET(request: NextRequest) {
 						profilePicture: true,
 					},
 				},
-        _count: {
-          select: {
-            votes: true,
-          },
-        },
-			},      
-			orderBy: {
-				createdAt: "asc",
+				_count: {
+					select: {
+						votes: true,
+					},
+				},
 			},
+			orderBy: [{ isBestAnswer: "desc" }, { createdAt: "asc" }],
 		});
 
 		return new Response(JSON.stringify(answers), {
