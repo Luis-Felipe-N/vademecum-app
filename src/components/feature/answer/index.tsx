@@ -1,6 +1,6 @@
-import { ArrowUp, ArrowUpAZ, Star, ThumbsUp } from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
+import { ArrowUp, Star } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -20,14 +20,32 @@ interface AnswerProps {
 }
 
 export function Answer({
-	answer, isAuthor,
+	answer,
+	isAuthor,
 	onSetBestAnswer,
-	bestAnswerId }: AnswerProps) {
-	const [votes, setVotes] = useState(answer._count?.votes ?? 0);
+	bestAnswerId,
+}: AnswerProps) {
+	const { data: sessionData } = useSession();
+	const [votesCount, setVotesCount] = useState(answer._count?.votes ?? 0);
+	const [hasVoted, setHasVoted] = useState(false);
+
 	const isBestAnswer = bestAnswerId === answer.id;
+
+	useEffect(() => {
+		if (sessionData?.user) {
+			setHasVoted(
+				!!answer.votes.find((vote) => vote.authorId === sessionData.user.id),
+			);
+		}
+	}, [sessionData, answer.votes]);
 
 	const handleVote = async () => {
 		try {
+			if (hasVoted) {
+				toast.info("Você já votou nesta resposta.");
+				return;
+			}
+
 			const response = await fetch("/api/answer/vote", {
 				method: "POST",
 				headers: {
@@ -37,13 +55,15 @@ export function Answer({
 			});
 
 			if (!response.ok) {
-				throw new Error("Erro ao registrar voto.");
+				const errorData = await response.json();
+				throw new Error(errorData.message || "Erro ao registrar voto.");
 			}
 
-			setVotes((prevVotes) => prevVotes + 1);
+			setVotesCount((prev) => prev + 1);
+			setHasVoted(true);
 			toast.success("Voto registrado com sucesso!");
-		} catch (error) {
-			toast.error("Erro ao registrar voto.");
+		} catch (error: any) {
+			toast.error(error.message);
 		}
 	};
 
@@ -59,7 +79,9 @@ export function Answer({
 
 			if (!response.ok) {
 				const errorData = await response.json();
-				throw new Error(errorData.message || "Erro ao marcar como melhor resposta.");
+				throw new Error(
+					errorData.message || "Erro ao marcar como melhor resposta.",
+				);
 			}
 
 			onSetBestAnswer(answer.id);
@@ -67,12 +89,13 @@ export function Answer({
 		} catch (error: any) {
 			toast.error(error.message);
 		}
-	}
-
-	console.log(isAuthor)
+	};
 
 	return (
-		<Card key={answer.id} className={`border-2 ${isBestAnswer && `bg-emerald-950/50 border-emerald-800/50`}`}>
+		<Card
+			key={answer.id}
+			className={`border-2 ${isBestAnswer ? `bg-emerald-950/50 border-emerald-800/50` : ""}`}
+		>
 			<CardHeader className="text-xs flex items-center justify-between">
 				<div className="flex items-center gap-2">
 					<Avatar className="h-12 w-12">
@@ -99,12 +122,13 @@ export function Answer({
 						</small>
 					</div>
 				</div>
-				{(isAuthor && !bestAnswerId) && (
+				{isAuthor && !bestAnswerId && (
 					<Button
-						className={`mt-4 sm:mt-0 ${isBestAnswer
-							? "bg-emerald-600 text-white"
-							: "bg-transparent text-emerald-600 border border-emerald-600 hover:bg-emerald-600 hover:text-white"
-							} `}
+						className={`mt-4 sm:mt-0 ${
+							isBestAnswer
+								? "bg-emerald-600 text-white"
+								: "bg-transparent text-emerald-600 border border-emerald-600 hover:bg-emerald-600 hover:text-white"
+						} `}
 						onClick={handleSetBestAnswer}
 						disabled={isBestAnswer}
 					>
@@ -124,28 +148,26 @@ export function Answer({
 			</CardHeader>
 			<CardContent>
 				<div
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 					dangerouslySetInnerHTML={{
 						__html: answer.content,
 					}}
 				></div>
 			</CardContent>
 			<CardFooter className="flex justify-between items-center">
-
 				<Button
 					variant="outline"
 					title={`Curtir resposta de ${answer.author.name}`}
-					className="cursor-pointer bg-transparent hover:bg-zinc-800"
+					className={`cursor-pointer bg-transparent  ${hasVoted ? `text-emerald-500 bg-emerald-950 border-emerald-700` : `text-zinc-400 hover:bg-zinc-800`}`}
+					disabled={hasVoted}
 					onClick={handleVote}
 				>
-					<div className="flex items-center gap-2">
+					<div className={`flex items-center gap-2`}>
 						<ArrowUp className="" />
-						<span className="text-zinc-400 text-xs flex items-center gap-1">
-							{votes}
+						<span className={`text-xs flex items-center gap-1 `}>
+							{votesCount}
 						</span>
 					</div>
 				</Button>
-
 			</CardFooter>
 		</Card>
 	);

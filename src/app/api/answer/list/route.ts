@@ -37,6 +37,11 @@ export async function GET(request: NextRequest) {
 						profilePicture: true,
 					},
 				},
+				votes:{
+					select: {
+						authorId: true
+					}
+				},
 				_count: {
 					select: {
 						votes: true,

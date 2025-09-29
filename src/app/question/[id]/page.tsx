@@ -74,7 +74,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 			<CreateAnswerModal questionId={id} onCreateAnswer={handleOnCreateAnswer}/>
 			<main className="max-w-6xl mx-auto mb-10">
 				<div className="gap-6 flex items-start">
-					<div className="lg:max-w-2/3 px-8 lg:px-0 space-y-6">
+					<div className="w-2/3 px-8 lg:px-0 space-y-6">
 						<Card className="border-2">
 							<CardHeader className="text-xs flex items-center justify-between">
 								<div className="flex items-center gap-2">
