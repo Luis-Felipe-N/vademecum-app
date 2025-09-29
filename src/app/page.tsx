@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { RecentQuestionsList } from "@/components/feature/questions/recent-questions-list";
-import { SearchQuestions } from "@/components/feature/questions/search-questions";
+import { RecentQuestionsList } from "@/components/feature/question/recent-questions-list";
+import { SearchQuestions } from "@/components/feature/question/search-questions";
 
 export default async function Home() {
 	return (

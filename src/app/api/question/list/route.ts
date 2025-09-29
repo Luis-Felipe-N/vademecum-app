@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import z4 from "zod/v4";
+import { tr } from "zod/v4/locales";
 import client from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
@@ -44,6 +45,17 @@ export async function GET(request: NextRequest) {
 					select: {
 						answers: true,
 					},
+				},
+				answers: {
+					where: {
+						isBestAnswer: true,
+					},
+					select: {
+						isBestAnswer: true,
+						author: true,
+						id: true,
+					},
+					take: 1,
 				},
 			},
 			orderBy: {

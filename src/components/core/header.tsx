@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/popover";
 import Login from "../feature/auth/login";
 import Register from "../feature/auth/register";
-import CreateQuestionModal from "../feature/questions/create-question/create-question-modal";
+import CreateQuestionModal from "../feature/question/create-question/create-question-modal";
 import Logo from "./logo";
 import UserMenu from "./user-menu";
 

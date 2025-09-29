@@ -1,14 +1,24 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Check, CheckCheck, CheckCircle, ChevronRight, Coins, Loader2, ThumbsUp } from "lucide-react";
+import {
+	ArrowLeft,
+	Check,
+	CheckCheck,
+	CheckCircle,
+	ChevronRight,
+	Coins,
+	Loader2,
+	ThumbsUp,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { use } from "react";
 import { AvatarAuthor } from "@/components/core/avatar-user";
 import { Answer } from "@/components/feature/answer";
-import CreateAnswerModal from "@/components/feature/questions/create-answer/create-answer-modal";
+import { AlreadyAnswered } from "@/components/feature/question/already-answered";
+import CreateAnswerModal from "@/components/feature/question/create-answer/create-answer-modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -118,10 +128,8 @@ export default function QuestionView({ params }: QuestionPageProps) {
 								<span className="text-zinc-400 text-xs">
 									{question._count?.answers ?? 0} respostas
 								</span>
-								{bestAnswerId ? (
-									<div className="text-emerald-600 flex gap-1 items-center bg-emerald-950/50 border-emerald-800/50 px-3 py-2 rounded-2xl">
-										<Check size={17} /><small className=""> Respondida por <strong>{bestAnswer?.author.name}</strong></small>
-									</div>
+								{bestAnswer && bestAnswerId ? (
+									<AlreadyAnswered author={bestAnswer?.author} />
 								) : (
 									<Link href={`/question/${question.id}/#answer`}>
 									<Button className="text-white bg-emerald-600 hover:bg-emerald-700 cursor-pointer">
@@ -138,7 +146,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 							<h3>Respostas: </h3>
 						</div>
 						<div className=" space-y-4">
-							{(answers?.length === 0) || (!data?.user) ? (
+							{(answers?.length === 0) ? (
 								<p className="text-zinc-400">
 									Nenhuma resposta ainda. Seja o primeiro!
 								</p>
@@ -146,7 +154,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 								answers?.map((answer: AnswerResponse) => (
 									<Answer
 										answer={answer}
-										isAuthor={data.user.id === question.authorId}
+										isAuthor={data?.user ? data.user.id === question.authorId: false}
 										bestAnswerId={bestAnswerId}
 										onSetBestAnswer={handleOnSetBestAnswer}
 										key={answer.id}
