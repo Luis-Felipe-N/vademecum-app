@@ -10,6 +10,9 @@ export type AnswerResponse = Answer &
 	author: Partial<User>;
 	votes: Array<Partial<Vote>>;
 	subjects: Array<Partial<Subject> | null>;
+	_count?: {
+		votes: number;
+	};
 }
 
 export type CreateAnswerError = {
