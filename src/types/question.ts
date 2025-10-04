@@ -8,7 +8,7 @@ export type Question = QuestionPrisma & {
 };
 
 export type CreateQuestionData = {
-	subjectId: string | null;
+	subjects: string[] | null;
 	title: string;
 	content: string;
 	file?: string;
@@ -16,7 +16,7 @@ export type CreateQuestionData = {
 
 export type QuestionResponse = Question & {
 	author: Partial<User>;
-	subject: Pick<Subject, "name">;
+	subjects: Array<Partial<Subject>>;
 	answers?: AnswerResponse[];
 };
 

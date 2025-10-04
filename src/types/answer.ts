@@ -5,14 +5,12 @@ export type CreateAnswerData = {
 	file?: string;
 };
 
-export type AnswerResponse = Answer & {
+export type AnswerResponse = Answer &
+	{
 	author: Partial<User>;
 	votes: Array<Partial<Vote>>;
-	subject: Pick<Subject, "name">;
-	_count: {
-		votes: number;
-	}
-};
+	subjects: Array<Partial<Subject> | null>;
+}
 
 export type CreateAnswerError = {
 	message: string;

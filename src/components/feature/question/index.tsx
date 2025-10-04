@@ -30,9 +30,15 @@ export function Question({ question }: QuestionProps) {
 							<div>
 								<strong className="text-xs">{question.author.name}</strong>
 								<nav className="flex items-center gap-2">
-									<span className="underline text-accent-foreground/70 text-xs">
-										#{question.subject.name}
-									</span>
+									{question.subjects.length && question.subjects.map((subject) => (
+												<a
+													key={subject.id}
+													className="underline text-accent-foreground/70 text-xs"
+													href={`/subject/${subject.name}`}
+												>
+													#{subject.name}
+												</a>
+											))}
 								</nav>
 							</div>
 						</div>

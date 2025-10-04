@@ -79,8 +79,7 @@ model Question {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
 
-  subject   Subject @relation(fields: [subjectId], references: [id])
-  subjectId String
+  subjects Subject[]
 
   answers Answer[]
 

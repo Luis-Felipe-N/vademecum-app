@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 						profilePicture: true,
 					},
 				},
-				subject: {
+				subjects: {
 					select: {
 						name: true,
 					},

@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { HelpCircleIcon, Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import type { Option } from "@/components/ui/multiselect";
 import {
 	Select,
 	SelectContent,
@@ -36,6 +37,7 @@ import { Textarea } from "@/components/ui/textarea";
 import UploadFile from "@/components/ui/upload-file";
 import { useCreateQuestion } from "@/http/use-create-question";
 import { getAvailableSubjects } from "@/server/get-available-subjects";
+import QuestionMultipleSelector from "./create-question-multiselect";
 
 const createQuestionSchema = z.object({
 	title: z
@@ -46,7 +48,7 @@ const createQuestionSchema = z.object({
 		.string()
 		.min(1, "O conteúdo é obrigatório.")
 		.max(5000, "O conteúdo deve ter no máximo 5000 caracteres."),
-	subjectId: z.string("Selecione uma matéria."),
+	subjects: z.array(z.string()).min(1, "Selecione uma matéria."),
 	file: z.any().optional(),
 });
 
@@ -57,19 +59,25 @@ export default function CreateQuestionModal() {
 
 	const form = useForm<CreateQuestionFormData>({
 		resolver: zodResolver(createQuestionSchema),
-		defaultValues: { title: "", content: "", subjectId: "" },
+		defaultValues: { title: "", content: "", subjects: [""] },
 	});
 
-	const { data: availableSubjects, isLoading: isLoadingSubjects } = useQuery({
+	const { formState: {errors} } = form;
+	console.log("Form State:", errors);	
+	const { data: availableSubjects } = useQuery({
 		queryKey: ["subjects"],
 		queryFn: getAvailableSubjects,
 	});
 
+	const options: Option[] = availableSubjects ? availableSubjects.map((subject) => {
+		return { label: subject.name, value: subject.id };
+	}) : []
+
 	const onSubmit = async (data: CreateQuestionFormData) => {
 		let fileUrl: string | undefined;
 		const imageFile = data.file?.[0]?.file;
-		
-		try {	
+
+		try {
 			if (imageFile && imageFile instanceof File) {
 				toast.info("Fazendo upload do anexo...");
 				const uploadResponse = await fetch(
@@ -155,31 +163,24 @@ export default function CreateQuestionModal() {
 								</FormItem>
 							)}
 						/>
-
-						<FormField
+						<Controller
 							control={form.control}
-							name="subjectId"
+							name="subjects"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Matéria</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										defaultValue={field.value}
-										disabled={isLoadingSubjects}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder="Selecione a matéria" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{availableSubjects?.map((subject) => (
-												<SelectItem key={subject.id} value={subject.id}>
-													{subject.name}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
+									<QuestionMultipleSelector
+										options={options}
+										value={
+											options?.filter((s) =>
+												field.value.includes(s.value),
+											) || []
+										}
+										onChange={(options) =>
+											field.onChange(options.map((o) => o.value))
+										}
+										maxSelected={1}
+									/>
 									<FormMessage />
 								</FormItem>
 							)}

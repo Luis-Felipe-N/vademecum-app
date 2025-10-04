@@ -71,7 +71,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 
 	return (
 		<>
-			<CreateAnswerModal questionId={id} onCreateAnswer={handleOnCreateAnswer}/>
+			<CreateAnswerModal questionId={id} onCreateAnswer={handleOnCreateAnswer} />
 			<main className="max-w-6xl mx-auto mb-10">
 				<div className="gap-6 flex items-start">
 					<div className="w-2/3 px-8 lg:px-0 space-y-6">
@@ -85,12 +85,16 @@ export default function QuestionView({ params }: QuestionPageProps) {
 									<div>
 										<strong className="text-xs">{question.author.name}</strong>
 										<nav className="flex items-center gap-2">
-											<a
-												className="underline text-accent-foreground/70 text-xs"
-												href={`/subject/${question.subject.name}`}
-											>
-												#{question.subject.name}
-											</a>
+											{question.subjects.map((subject) => (
+												<a
+													key={subject.id}
+													className="underline text-accent-foreground/70 text-xs"
+													href={`/subject/${subject.name}`}
+												>
+													#{subject.name}
+												</a>
+											))}
+
 										</nav>
 									</div>
 								</div>
@@ -132,10 +136,10 @@ export default function QuestionView({ params }: QuestionPageProps) {
 									<AlreadyAnswered author={bestAnswer?.author} />
 								) : (
 									<Link href={`/question/${question.id}/#answer`}>
-									<Button className="text-white bg-emerald-600 hover:bg-emerald-700 cursor-pointer">
-										Responder
-									</Button>
-								</Link>
+										<Button className="text-white bg-emerald-600 hover:bg-emerald-700 cursor-pointer">
+											Responder
+										</Button>
+									</Link>
 								)}
 							</CardFooter>
 						</Card>
@@ -154,7 +158,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 								answers?.map((answer: AnswerResponse) => (
 									<Answer
 										answer={answer}
-										isAuthor={data?.user ? data.user.id === question.authorId: false}
+										isAuthor={data?.user ? data.user.id === question.authorId : false}
 										bestAnswerId={bestAnswerId}
 										onSetBestAnswer={handleOnSetBestAnswer}
 										key={answer.id}
@@ -164,7 +168,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 						</div>
 					</div>
 
-			
+
 				</div>
 			</main>
 		</>

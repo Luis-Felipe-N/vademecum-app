@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 	const authorId = session.user.id;
 
 	const questionSchema = z.object({
-		subjectId: z.string().min(1, "Inform a matéria"),
+		subjects:  z.array(z.string()).min(1, "Selecione pelo menos uma matéria."),
 		title: z.string().min(1, "Título é obrigatório"),
 		content: z.string().min(1, "Conteúdo é obrigatório"),
 		file: z.string().optional(),
@@ -27,29 +27,20 @@ export async function POST(request: NextRequest) {
 		const body = await request.json();
 		const parsedData = questionSchema.parse(body);
 
-		const { subjectId, title, content, file } = parsedData;
+		const { subjects, title, content, file } = parsedData;
 
 		const newQuestion = await client.question.create({
 			data: {
-				subjectId,
 				title,
 				content,
-				authorId,
-				file: file || undefined,
-			},
-			include: {
 				author: {
-					select: {
-						name: true,
-						profilePicture: true,
-					},
+					connect: { id: authorId },
 				},
-				subject: {
-					select: {
-						name: true,
-					},
+				file: file || undefined,
+				subjects: {
+					connect: subjects.map(id => ({ id })), 
 				},
-			},
+			}
 		});
 
 		return NextResponse.json(newQuestion, { status: 201 }); // 201 Created
