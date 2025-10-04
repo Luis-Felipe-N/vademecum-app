@@ -26,7 +26,7 @@ export async function GET(
 						profilePicture: true,
 					},
 				},
-				subject: {
+				subjects: {
 					select: {
 						name: true,
 					},
