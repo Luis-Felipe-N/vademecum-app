@@ -176,10 +176,11 @@ export default function CreateQuestionModal() {
 												field.value.includes(s.value),
 											) || []
 										}
-										onChange={(options) =>
+										onChange={(options) =>(
+											console.log(options),
 											field.onChange(options.map((o) => o.value))
+										)
 										}
-										maxSelected={1}
 									/>
 									<FormMessage />
 								</FormItem>
