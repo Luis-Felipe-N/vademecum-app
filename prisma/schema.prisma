@@ -14,10 +14,12 @@ model User {
   email          String?   @unique
   emailVerified  DateTime?
   profilePicture String?
-  accounts       Account[]
-  sessions       Session[]
-  created_at     DateTime  @default(now())
-  password       String
+  bio            String? // Adicione esta linha
+
+  accounts   Account[]
+  sessions   Session[]
+  created_at DateTime  @default(now())
+  password   String
 
   enrolledSubjects Subject[]
   answersProvided  Answer[]

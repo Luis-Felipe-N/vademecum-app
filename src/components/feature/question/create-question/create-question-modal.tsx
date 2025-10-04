@@ -60,10 +60,6 @@ export default function CreateQuestionModal() {
 		defaultValues: { title: "", content: "", subjectId: "" },
 	});
 
-	const { formState: {errors, }} = form
-
-	console.log(errors)
-
 	const { data: availableSubjects, isLoading: isLoadingSubjects } = useQuery({
 		queryKey: ["subjects"],
 		queryFn: getAvailableSubjects,
@@ -72,7 +68,7 @@ export default function CreateQuestionModal() {
 	const onSubmit = async (data: CreateQuestionFormData) => {
 		let fileUrl: string | undefined;
 		const imageFile = data.file?.[0]?.file;
-		console.log(data)
+		
 		try {	
 			if (imageFile && imageFile instanceof File) {
 				toast.info("Fazendo upload do anexo...");

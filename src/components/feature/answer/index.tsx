@@ -148,6 +148,7 @@ export function Answer({
 			</CardHeader>
 			<CardContent>
 				<div
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 					dangerouslySetInnerHTML={{
 						__html: answer.content,
 					}}

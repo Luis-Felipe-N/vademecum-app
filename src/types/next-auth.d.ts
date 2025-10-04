@@ -1,16 +1,12 @@
-// src/types/next-auth.d.ts
-import "next-auth";
+import NextAuth from "next-auth";
 
 declare module "next-auth" {
-	/**
-	 * Extends the built-in session.user type to include your custom fields.
-	 */
-	interface User {
-		id: string;
-		profilePicture?: string | null;
-	}
+  interface User {
+    bio?: string;
+    profilePicture?: string;
+  }
 
-	interface Session {
-		user: User;
-	}
+  interface Session {
+    user: User;
+  }
 }

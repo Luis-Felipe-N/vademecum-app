@@ -1,18 +1,17 @@
 "use client";
 
 import { AlertCircleIcon, ImageUpIcon, XIcon } from "lucide-react";
-
-import { useFileUpload } from "@/hooks/use-file-upload";
-import { useFormContext } from "react-hook-form";
-import { useEffect } from "react";
 import Image from "next/image";
+import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import { useFileUpload } from "@/hooks/use-file-upload";
 
 export default function UploadFile() {
 	const { register, setValue, unregister } = useFormContext();
 	const fieldName = "file";
 
 	const maxSizeMB = 5;
-	const maxSize = maxSizeMB * 1024 * 1024; // 5MB default
+	const maxSize = maxSizeMB * 1024 * 1024;
 
 	const [
 		{ files, isDragging, errors },

@@ -1,6 +1,6 @@
 import { BoltIcon, LogOutIcon } from "lucide-react";
+import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -42,10 +42,12 @@ export default function UserMenu() {
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					<DropdownMenuItem>
+						<Link href={"/profile"} >
+					<DropdownMenuItem className="cursor-pointer">
 						<BoltIcon size={16} className="opacity-60" aria-hidden="true" />
-						<span>Option 1</span>
+						Perfil
 					</DropdownMenuItem>
+						</Link>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 
