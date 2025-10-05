@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
 				subjects: {
 					select: {
 						name: true,
+						code: true,
 					},
 				},
 				_count: {

@@ -29,6 +29,7 @@ export async function GET(
 				subjects: {
 					select: {
 						name: true,
+						code: true,
 					},
 				},
 				answers: {

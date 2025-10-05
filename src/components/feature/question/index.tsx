@@ -18,7 +18,9 @@ interface QuestionProps {
 export function Question({ question }: QuestionProps) {
 	const hasBestAnswer = question.answers?.find(
 		(answer) => answer.isBestAnswer === true,
-	);
+	);	
+
+	console.log('question', question)
 
 	return (
 		<article>
@@ -31,13 +33,12 @@ export function Question({ question }: QuestionProps) {
 								<strong className="text-xs">{question.author.name}</strong>
 								<nav className="flex items-center gap-2">
 									{question.subjects.length && question.subjects.map((subject) => (
-												<a
-													key={subject.id}
-													className="underline text-accent-foreground/70 text-xs"
-													href={`/subject/${subject.name}`}
+												<span
+													key={subject.name}
+													className="text-accent-foreground/70 text-xs"
 												>
-													#{subject.name}
-												</a>
+													#{subject.name}{subject.id}
+												</span>
 											))}
 								</nav>
 							</div>

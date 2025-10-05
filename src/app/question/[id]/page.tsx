@@ -1,25 +1,15 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import {
-	ArrowLeft,
-	Check,
-	CheckCheck,
-	CheckCircle,
-	ChevronRight,
-	Coins,
-	Loader2,
-	ThumbsUp,
-} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { use } from "react";
 import { AvatarAuthor } from "@/components/core/avatar-user";
 import { Answer } from "@/components/feature/answer";
+import CreateAnswerModal from "@/components/feature/answer/create-answer/create-answer-modal";
+import Login from "@/components/feature/auth/login";
 import { AlreadyAnswered } from "@/components/feature/question/already-answered";
-import CreateAnswerModal from "@/components/feature/question/create-answer/create-answer-modal";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -41,19 +31,18 @@ export default function QuestionView({ params }: QuestionPageProps) {
 	const { data: question, isLoading, isError } = useGetQuestion(id);
 	const { data: answers, refetch: refetchAnswers } = useGetAnswer(1, id);
 
-	const { data } = useSession();
+	const { data, status } = useSession();
 
-	const bestAnswer = answers?.find(answer => answer.isBestAnswer === true)
-	const bestAnswerId = bestAnswer ? bestAnswer.id : null
+	const bestAnswer = answers?.find((answer) => answer.isBestAnswer === true);
+	const bestAnswerId = bestAnswer ? bestAnswer.id : null;
 
 	const handleOnSetBestAnswer = () => {
-		refetchAnswers()
-	}
+		refetchAnswers();
+	};
 
 	const handleOnCreateAnswer = () => {
-		refetchAnswers()
-
-	}
+		refetchAnswers();
+	};
 
 	if (isLoading) {
 		return (
@@ -71,7 +60,10 @@ export default function QuestionView({ params }: QuestionPageProps) {
 
 	return (
 		<>
-			<CreateAnswerModal questionId={id} onCreateAnswer={handleOnCreateAnswer} />
+			<CreateAnswerModal
+				questionId={id}
+				onCreateAnswer={handleOnCreateAnswer}
+			/>
 			<main className="max-w-6xl mx-auto mb-10">
 				<div className="gap-6 flex items-start">
 					<div className="w-2/3 px-8 lg:px-0 space-y-6">
@@ -87,14 +79,13 @@ export default function QuestionView({ params }: QuestionPageProps) {
 										<nav className="flex items-center gap-2">
 											{question.subjects.map((subject) => (
 												<a
-													key={subject.id}
+													key={subject.name}
 													className="underline text-accent-foreground/70 text-xs"
-													href={`/subject/${subject.name}`}
+													href={`/subject/${subject.code?.toLocaleLowerCase()}`}
 												>
 													#{subject.name}
 												</a>
 											))}
-
 										</nav>
 									</div>
 								</div>
@@ -134,6 +125,8 @@ export default function QuestionView({ params }: QuestionPageProps) {
 								</span>
 								{bestAnswer && bestAnswerId ? (
 									<AlreadyAnswered author={bestAnswer?.author} />
+								) : !(status === 'authenticated') ? (
+									<Login />
 								) : (
 									<Link href={`/question/${question.id}/#answer`}>
 										<Button className="text-white bg-emerald-600 hover:bg-emerald-700 cursor-pointer">
@@ -150,7 +143,7 @@ export default function QuestionView({ params }: QuestionPageProps) {
 							<h3>Respostas: </h3>
 						</div>
 						<div className=" space-y-4">
-							{(answers?.length === 0) ? (
+							{answers?.length === 0 ? (
 								<p className="text-zinc-400">
 									Nenhuma resposta ainda. Seja o primeiro!
 								</p>
@@ -158,7 +151,9 @@ export default function QuestionView({ params }: QuestionPageProps) {
 								answers?.map((answer: AnswerResponse) => (
 									<Answer
 										answer={answer}
-										isAuthor={data?.user ? data.user.id === question.authorId : false}
+										isAuthor={
+											data?.user ? data.user.id === question.authorId : false
+										}
 										bestAnswerId={bestAnswerId}
 										onSetBestAnswer={handleOnSetBestAnswer}
 										key={answer.id}
@@ -167,8 +162,6 @@ export default function QuestionView({ params }: QuestionPageProps) {
 							)}
 						</div>
 					</div>
-
-
 				</div>
 			</main>
 		</>

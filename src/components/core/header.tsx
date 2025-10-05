@@ -20,7 +20,10 @@ import CreateQuestionModal from "../feature/question/create-question/create-ques
 import Logo from "./logo";
 import UserMenu from "./user-menu";
 
-const navigationLinks = [{ href: "#", label: "Home", active: true }];
+const navigationLinks = [
+	{ href: "#", label: "Home", active: true },
+	{ href: "raking", label: "Raking", }
+];
 
 export default function Header() {
 	const { status } = useSession();
@@ -37,7 +40,7 @@ export default function Header() {
 								size="icon"
 							>
 								{/** biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
-								<svg		
+								<svg
 									className="pointer-events-none"
 									width={16}
 									height={16}
@@ -82,10 +85,26 @@ export default function Header() {
 							</NavigationMenu>
 						</PopoverContent>
 					</Popover>
-					<div className="flex items-center">
+					<div className="flex items-center gap-6">
 						<Link href={"/"} className="text-primary hover:text-primary/90">
 							<Logo />
 						</Link>
+						{/* Navigation menu */}
+						<NavigationMenu className="max-md:hidden">
+							<NavigationMenuList className="gap-2">
+								{navigationLinks.map((link) => (
+									<NavigationMenuItem key={link.href}>
+										<NavigationMenuLink
+											active={link.active}
+											href={link.href}
+											  className="text-muted-foreground hover:text-primary border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
+										>
+											{link.label}
+										</NavigationMenuLink>
+									</NavigationMenuItem>
+								))}
+							</NavigationMenuList>
+						</NavigationMenu>
 					</div>
 				</div>
 

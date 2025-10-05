@@ -112,8 +112,8 @@ export default function ProfilePage() {
 	return (
 		<main className="w-full">
 			<div className="absolute top-[-180px] left-[400px] z-10 h-[150px] w-[400px] rotate-[0deg] transform rounded-full bg-gradient-to-tl from-slate-800 via-cyan-500 to-zinc-400 blur-[150px]"></div>
-			<div className="relative max-w-xl mx-auto z-30 mt-36">
-				<div className=" w-full py-10">
+			<div className="relative mx-auto z-30 ">
+				<div className="py-10">
 					<div className="">
 						<Form {...form}>
 							<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -162,7 +162,7 @@ export default function ProfilePage() {
 									)}
 								/>
 
-								<Button type="submit" disabled={isSubmitting}>
+								<Button type="submit" disabled={isSubmitting} className="text-white">
 									Salvar
 								</Button>
 							</form>
