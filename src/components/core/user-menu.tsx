@@ -42,7 +42,7 @@ export default function UserMenu() {
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-						<Link href={"/profile"} >
+						<Link href={`/profile/${data.user.id}`} >
 					<DropdownMenuItem className="cursor-pointer">
 						<BoltIcon size={16} className="opacity-60" aria-hidden="true" />
 						Perfil

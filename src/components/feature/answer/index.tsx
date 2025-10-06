@@ -124,11 +124,10 @@ export function Answer({
 				</div>
 				{isAuthor && !bestAnswerId && (
 					<Button
-						className={`mt-4 sm:mt-0 ${
-							isBestAnswer
+						className={`mt-4 sm:mt-0 ${isBestAnswer
 								? "bg-emerald-600 text-white"
 								: "bg-transparent text-emerald-600 border border-emerald-600 hover:bg-emerald-600 hover:text-white"
-						} `}
+							} `}
 						onClick={handleSetBestAnswer}
 						disabled={isBestAnswer}
 					>

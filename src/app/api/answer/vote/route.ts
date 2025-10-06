@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import z4 from "zod/v4";
 import { authOptions } from "@/lib/auth/authOptions";
+import { addPoints } from "@/lib/gamification";
 import client from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
@@ -28,33 +29,51 @@ export async function POST(request: NextRequest) {
 
 	const { answerId } = parsed.data;
 
-  const authorAlreadyVoted = await client.vote.findFirst({
-    where: {
-      answerId,
-      authorId,
-    },
-  });
+	const answer = await client.answer.findUnique({
+		where: { id: answerId },
+	});
 
-  if (authorAlreadyVoted) {
-    const errorResponse = {
+	if (!answer) {
+		return NextResponse.json(
+			{ error: "Resposta não encontrada" },
+			{ status: 404 },
+		);
+	}
+
+	const authorAlreadyVoted = await client.vote.findFirst({
+		where: {
+			answerId,
+			authorId,
+		},
+	});
+
+	if (authorAlreadyVoted) {
+		const errorResponse = {
 			status: "error",
 			message: "Você já votou nesta resposta",
 		};
-    
 
-    return new NextResponse(JSON.stringify(errorResponse), {
+		return new NextResponse(JSON.stringify(errorResponse), {
 			status: 400,
 			headers: { "Content-Type": "application/json" },
 		});
-  }
+	}
 
-  const vote = await client.vote.create({
-    data: {
-      answerId,
-      authorId,
-      voteType: 0, // Upvote
-    },
-  });
+	const vote = await client.vote.create({
+		data: {
+			answerId,
+			authorId,
+			voteType: 0, // Upvote
+		},
+	});
 
-  return NextResponse.json(vote, { status: 201 });
+	// Assigning gamification points for the upvote
+	await addPoints({
+		userId: answer.authorId,
+		points: 10,
+		sourceType: "UPVOTE",
+		sourceId: vote.id,
+	});
+
+	return NextResponse.json(vote, { status: 201 });
 }

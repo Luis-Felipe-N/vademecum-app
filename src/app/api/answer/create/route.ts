@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import z from "zod";
 import { authOptions } from "@/lib/auth/authOptions";
+import { addPoints } from "@/lib/gamification";
 import client from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
@@ -37,5 +38,11 @@ export async function POST(request: NextRequest) {
 		},
 	});
 
+	await addPoints({
+		userId: authorId,
+		points: 50,
+		sourceType: "CHALLENGE_COMPLETION",
+		sourceId: answer.id,
+	});
 	return NextResponse.json(answer, { status: 201 });
 }

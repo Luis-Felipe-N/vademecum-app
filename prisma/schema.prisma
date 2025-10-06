@@ -14,7 +14,10 @@ model User {
   email          String?   @unique
   emailVerified  DateTime?
   profilePicture String?
-  bio            String? // Adicione esta linha
+  bio            String?
+
+  points Int @default(0)
+  level  Int @default(1)
 
   accounts   Account[]
   sessions   Session[]
@@ -25,6 +28,9 @@ model User {
   answersProvided  Answer[]
   votes            Vote[]
   questionsCreated Question[]
+  PointLog         PointLog[]
+  UserBadge        UserBadge[]
+  UserSubjectStats UserSubjectStats[]
 }
 
 model Account {
@@ -62,7 +68,8 @@ model Subject {
 
   studentsEnrolled User[]
 
-  questions Question[]
+  questions        Question[]
+  UserSubjectStats UserSubjectStats[]
 
   @@map("subjects")
 }
@@ -120,6 +127,62 @@ model Vote {
   @@map("votes")
 }
 
+// Gamification Models
+model PointLog {
+  id           String             @id @default(cuid())
+  userId       String
+  pointsGained Int
+  sourceType   PointLogSourceType
+  sourceId     String?
+  createdAt    DateTime           @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("point_logs")
+}
+
+model Badge {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String
+  type        BadgeType
+  threshold   Int
+  subjectId   String?
+  icon        String
+  createdAt   DateTime  @default(now())
+
+  users UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}
+
+model UserSubjectStats {
+  id               String @id @default(cuid())
+  userId           String
+  subjectId        String
+  answersCount     Int    @default(0)
+  bestAnswersCount Int    @default(0)
+
+  user    User    @relation(fields: [userId], references: [id])
+  subject Subject @relation(fields: [subjectId], references: [id])
+
+  @@unique([userId, subjectId])
+  @@map("user_subject_stats")
+}
+
 enum Gender {
   M
   F
@@ -131,4 +194,20 @@ enum QuestionStatus {
   OPEN
   CLOSED
   ANSWERED
+}
+
+enum PointLogSourceType {
+  BEST_ANSWER
+  UPVOTE
+  BADGE_AWARD
+  DAILY_LOGIN
+  CHALLENGE_COMPLETION
+}
+
+enum BadgeType {
+  SUBJECT_ANSWERS
+  TOTAL_ANSWERS
+  BEST_ANSWERS
+  PROFILE_ACTION
+  MISSION
 }

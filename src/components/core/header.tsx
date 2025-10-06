@@ -21,8 +21,8 @@ import Logo from "./logo";
 import UserMenu from "./user-menu";
 
 const navigationLinks = [
-	{ href: "#", label: "Home", active: true },
-	{ href: "raking", label: "Raking", }
+	{ href: "/", label: "Home", active: true },
+	{ href: "/raking", label: "Raking", }
 ];
 
 export default function Header() {
