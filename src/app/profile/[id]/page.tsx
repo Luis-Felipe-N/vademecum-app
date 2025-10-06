@@ -45,7 +45,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 			<div className="absolute top-[-180px] left-[400px] z-10 h-[150px] w-[400px] rotate-[0deg] transform rounded-full bg-gradient-to-tl from-slate-800 via-cyan-500 to-zinc-400 blur-[150px]"></div>
 
 			<div className="grid grid-cols-3">
-				<section className="gap-6 mb-8">
+				<section className="gap-6 mb-8 lg:col-span-1 col-span-3">
 					<div className="flex items-center gap-4">
 						<AvatarAuthor
 							size="lg"
@@ -62,7 +62,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 						</div>
 					</div>
 					<ul className="flex gap-6 mt-4 ">
-						{userStats.map((stat, index) => (
+						{userStats.map((stat) => (
 							<li key={stat.label} className="text-center">
 								<small className="text-muted-foreground">{stat.label}</small>
 								<p className="font-medium">{stat.count}</p>
@@ -71,9 +71,9 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 					</ul>
 				</section>
 
-				<section className="w-full flex flex-col items-end col-span-2">
+				<section className="w-full flex flex-col items-end lg:col-span-2 col-span-3">
 					<Tabs defaultValue="reposta-tab" className="w-full">
-						<TabsList className="text-foreground h-auto gap-2 rounded-none bg-transparent px-0 py-1 flex justify-end ms-auto">
+						<TabsList className="text-foreground h-auto gap-2 rounded-none bg-transparent px-0 py-1 flex justify-end lg:ms-auto">
 							<TabsTrigger
 								value="reposta-tab"
 								className="cursor-pointer data-[state=active]:after:bg-emerald-600 relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none border-none"
