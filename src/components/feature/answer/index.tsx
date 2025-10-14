@@ -56,6 +56,9 @@ export function Answer({
 
 			if (!response.ok) {
 				const errorData = await response.json();
+
+				console.log(errorData)
+
 				throw new Error(errorData.message || "Erro ao registrar voto.");
 			}
 

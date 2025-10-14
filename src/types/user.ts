@@ -12,3 +12,17 @@ export type UserResponse = User & {
 		votes: number;
 	};
 };
+
+
+export interface UserRanking {
+  id: string;
+  name: string;
+  profilePicture: string;
+  points: number;
+  level: number;
+  _count: {
+    questionsCreated: number;
+    answersProvided: number;
+  };
+  bestAnswersCount: number;
+}

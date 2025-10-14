@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
 	if (!session || !session.user) {
 		return NextResponse.json(
-			{ error: "Usuário não autenticado" },
+			{ message: "Usuário não autenticado" },
 			{ status: 401 },
 		);
 	}
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
 	if (!answer) {
 		return NextResponse.json(
-			{ error: "Resposta não encontrada" },
+			{ message: "Resposta não encontrada" },
 			{ status: 404 },
 		);
 	}
@@ -67,7 +67,6 @@ export async function POST(request: NextRequest) {
 		},
 	});
 
-	// Assigning gamification points for the upvote
 	await addPoints({
 		userId: answer.authorId,
 		points: 10,

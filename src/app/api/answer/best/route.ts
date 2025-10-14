@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import z4, { z } from "zod/v4";
 import { authOptions } from "@/lib/auth/authOptions";
+import { addPoints } from "@/lib/gamification";
 import client from "@/lib/prisma";
 
 export async function PUT(request: NextRequest) {
@@ -30,26 +31,27 @@ export async function PUT(request: NextRequest) {
 
 	const questionsByAuthor = await client.question.findFirst({
 		where: {
-      answers: {
-        some: {
-          id: answerId
-        }
-      },
+			answers: {
+				some: {
+					id: answerId,
+				},
+			},
 			authorId,
 		},
-     include: {
-      answers: {
-        where: {
-          isBestAnswer: true,
-        },
-      },
-    },
+		include: {
+			answers: {
+				where: {
+					isBestAnswer: true,
+				},
+			},
+		},
 	});
 
 	if (!questionsByAuthor) {
 		const errorResponse = {
 			status: "error",
-			message: "Você não tem permissão para marcar esta resposta como a melhor.",
+			message:
+				"Você não tem permissão para marcar esta resposta como a melhor.",
 		};
 
 		return new NextResponse(JSON.stringify(errorResponse), {
@@ -58,18 +60,17 @@ export async function PUT(request: NextRequest) {
 		});
 	}
 
-  if (questionsByAuthor.answers.length > 0) {
-    const errorResponse = {
-      status: "error",
-      message: "Uma resposta já foi marcada como a melhor para esta pergunta.",
-    };
+	if (questionsByAuthor.answers.length > 0) {
+		const errorResponse = {
+			status: "error",
+			message: "Uma resposta já foi marcada como a melhor para esta pergunta.",
+		};
 
-    return new NextResponse(JSON.stringify(errorResponse), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
+		return new NextResponse(JSON.stringify(errorResponse), {
+			status: 400,
+			headers: { "Content-Type": "application/json" },
+		});
+	}
 
 	const betsAnswer = await client.answer.update({
 		where: {
@@ -80,5 +81,12 @@ export async function PUT(request: NextRequest) {
 		},
 	});
 
-  return NextResponse.json(betsAnswer,{ status: 200 })
+	await addPoints({
+		userId: betsAnswer.authorId,
+		points: 100,
+		sourceType: "BEST_ANSWER",
+		sourceId: betsAnswer.id,
+	});
+
+	return NextResponse.json(betsAnswer, { status: 200 });
 }

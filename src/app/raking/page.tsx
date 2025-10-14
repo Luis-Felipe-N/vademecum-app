@@ -1,3 +1,5 @@
+'use client'
+
 import { Medal, StarIcon, } from "lucide-react";
 import { AvatarAuthor } from "@/components/core/avatar-user";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -9,64 +11,20 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-
-const items = [
-	{
-		id: "1",
-		name: "Alex Thompson",
-		username: "@alexthompson",
-		image:
-			"https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/avatar-40-02_upqrxi.jpg",
-		email: "alex.t@company.com",
-		location: "San Francisco, US",
-		status: "Active",
-		points: 1250.0,
-	},
-	{
-		id: "2",
-		name: "Sarah Chen",
-		username: "@sarahchen",
-		image:
-			"https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/avatar-40-01_ij9v7j.jpg",
-		email: "sarah.c@company.com",
-		location: "Singapore",
-		status: "Active",
-		points: 600.0,
-	},
-	{
-		id: "4",
-		name: "Maria Garcia",
-		username: "@mariagarcia",
-		image:
-			"https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/avatar-40-03_dkeufx.jpg",
-		email: "m.garcia@company.com",
-		location: "Madrid, Spain",
-		status: "Active",
-		points: 0.0,
-	},
-	{
-		id: "5",
-		name: "David Kim",
-		username: "@davidkim",
-		image:
-			"https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/avatar-40-05_cmz0mg.jpg",
-		email: "d.kim@company.com",
-		location: "Seoul, KR",
-		status: "Active",
-		points: 1000,
-	},
-];
+import { useGetRanking } from "@/http/use-get-raking";
 
 export default function RakingPage() {
+	const {data: items} = useGetRanking()
+
 	return (
-		<main>
-			<div className="mb-6 flex  gap-4">
-				{items.slice(0, 3).map((item, index) => (
-					<Card className="w-full border-2" key={item.id}>
+		<main className="px-8 lg:px-0">
+			<div className="mb-6 grid grid-cols-3 gap-4">
+				{items?.slice(0, 3).map((item, index) => (
+					<Card className="w-full border-2 col-span-3 lg:col-span-1" key={item.id}>
 						<CardHeader className="flex justify-between items-center">
 							<div className="flex items-center gap-4">
 								<AvatarAuthor
-									author={{ name: item.name, profilePicture: item.image }}
+									author={{ name: item.name, profilePicture: item.profilePicture }}
 								/>
 								<small className="text-sm">{item.name}</small>
 							</div>
@@ -89,15 +47,15 @@ export default function RakingPage() {
 							<div className="text-sm text-muted-foreground flex mt-4 gap-6">
 								<div className="border-b border-cyan-600 border-dashed flex flex-col gap-2 pb-2">
                   <span className="text-zinc-400 text-sm">Respostas</span>
-                  <span className="text-xs">323</span>
+                  <span className="text-xs">{item._count.answersProvided}</span>
                 </div>
                 <div className="border-b border-emerald-600 border-dashed flex flex-col gap-2 pb-2">
                   <span className="text-zinc-400 text-sm">Perguntas</span>
-                  <span className="text-xs">323</span>
+                  <span className="text-xs">{item._count.questionsCreated}</span>
                 </div>
                 <div className="border-b border-amber-600 border-dashed flex flex-col gap-2 pb-2">
                   <span className="text-zinc-400 text-sm">Melhor respostas</span>
-                  <span className="text-xs">323</span>
+                  <span className="text-xs">{item.bestAnswersCount}</span>
                 </div>
 							</div>
 						</CardContent>
@@ -105,42 +63,36 @@ export default function RakingPage() {
 				))}
 			</div>
 
-			<div className="border-2 p-4 rounded-2xl bg-card">
-				<Table>
+			<div className="border-2 p-4 rounded-2xl bg-card overflow-x-auto">
+				<Table className="overflow-x-auto">
 					<TableHeader>
 						<TableRow className="hover:bg-transparent">
 							<TableHead></TableHead>
 							<TableHead>Usuário</TableHead>
 							<TableHead>Pontos</TableHead>
-							<TableHead>Classificação</TableHead>
-							<TableHead>Balance</TableHead>
+							<TableHead>Level</TableHead>
+							<TableHead>Melhor Resposta</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{items.map((item) => (
+						{items?.map((item, idx) => (
 							<TableRow key={item.id}>
-								<TableCell>{item.id}</TableCell>
+								<TableCell>{idx + 1}</TableCell>
 
 								<TableCell>
 									<div className="flex items-center gap-3">
-										<img
-											className="rounded-full"
-											src={item.image}
-											width={40}
-											height={40}
-											alt={item.name}
-										/>
+										<AvatarAuthor author={{name: item.name, profilePicture: item.profilePicture}} />
 										<div>
 											<div className="font-medium">{item.name}</div>
 											<span className="text-muted-foreground mt-0.5 text-xs">
-												{item.username}
+												{item.points < 60 ? 1 && 'Iniciante' : 'Aprendiz'}
 											</span>
 										</div>
 									</div>
 								</TableCell>
-								<TableCell>{item.points}</TableCell>
-								<TableCell>{item.status}</TableCell>
-								<TableCell>{item.status}</TableCell>
+								<TableCell className="items-center">{item.points}</TableCell>
+								<TableCell>{item.points < 60 ? 1 && 'Iniciante' : 'Aprendiz'}</TableCell>
+								<TableCell className="items-center">{item.bestAnswersCount}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
