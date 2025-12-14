@@ -64,7 +64,9 @@ async function main() {
 			title: title,
 			content: content,
 			authorId: faker.helpers.arrayElement(createdUsers).id,
-			subjectId: randomSubject.id,
+			subjects: {
+				connect: { id: randomSubject.id },
+			},
 			status: QuestionStatus.OPEN,
 		});
 	}
